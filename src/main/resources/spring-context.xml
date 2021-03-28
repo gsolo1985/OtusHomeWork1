@@ -8,4 +8,8 @@
         <constructor-arg value="questions.csv"/>
     </bean>
 
+    <bean id="outputQuestionsService" class="ru.otus.studenttest.service.OutputQuestionsServiceImpl">
+        <constructor-arg name="readCsvFileService" ref="readCsvFileService"/>
+    </bean>
+
 </beans>

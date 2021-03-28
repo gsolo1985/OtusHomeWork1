@@ -1,8 +1,8 @@
 package ru.otus.studenttest.service;
 
 
-import java.io.IOException;
+import java.io.File;
 
 public interface ReadCsvFileService {
-    void outputQuestions() throws IOException;
+    File readResourseFile();
 }

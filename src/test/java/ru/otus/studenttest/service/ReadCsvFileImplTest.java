@@ -1,29 +1,33 @@
 package ru.otus.studenttest.service;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.File;
 import java.io.IOException;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
+@DisplayName("Тестирование сервиса чтения файла")
 class ReadCsvFileImplTest {
-
     private ReadCsvFileServiceImpl service;
+    final private String fileName = "questions.csv";
 
-    @BeforeEach
+    @BeforeAll
     void setUp() {
-        String fileName = "questions.csv"; //не знаю насколько корректно так делать для теста
         service = new ReadCsvFileServiceImpl(fileName);
     }
 
     @Test
-    @DisplayName("Тестовый тест")
+    @DisplayName("Чтение файла")
     void outputQuestions() throws IOException {
-        service.outputQuestions();                       // не знаю как протестить, пусть будет просто что не падает с ошибкой
+        File file = new File(getClass().getClassLoader().getResource(fileName).getFile());
+
+        assertThat(file).isEqualTo(service.readResourseFile());
     }
 }
