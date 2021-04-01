@@ -1,43 +1,30 @@
 package ru.otus.studenttest.service;
 
-import org.springframework.stereotype.Service;
+import au.com.bytecode.opencsv.CSVReader;
 
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
 
-@Service
+
 public class OutputQuestionsServiceImpl implements OutputQuestionsService {
-    private final ReadCsvFileService readCsvFileService;
-    private final List<String[]> questionList;
+    final ReadCsvFileService readCsvFileService;
 
-    public OutputQuestionsServiceImpl(ReadCsvFileService readCsvFileService) throws IOException {
+    public OutputQuestionsServiceImpl(ReadCsvFileService readCsvFileService) {
         this.readCsvFileService = readCsvFileService;
-        this.questionList = this.readCsvFileService.getCSVReaderFromResourceFile().readAll();
     }
 
     @Override
-    public void outputAllQuestions() throws IOException {
-        for (String[] question : questionList) {
-            System.out.println(question[0]);
+    public void outputQuestionsFromCsv() throws IOException {
+        String[] questions;
+        CSVReader csvreader = new CSVReader(new FileReader(readCsvFileService.readResourseFile()), ';', '"', 1);
+
+        while (true) {
+            questions = csvreader.readNext();
+            if (questions == null || questions.length == 0) {
+                return;
+            } else {
+                System.out.println(questions[0]);
+            }
         }
-    }
-
-    @Override
-    public void outputQuestion(int questionNumber) {
-        if (getCountQuestions() > questionNumber) {
-            System.out.println(questionList.get(questionNumber)[0]);
-        }
-    }
-
-    @Override
-    public String getSolutionAnswer(int questionNumber) {
-        if (getCountQuestions() > questionNumber) {
-            return questionList.get(questionNumber)[1];
-        } else return "";
-    }
-
-    @Override
-    public int getCountQuestions() {
-        return questionList.size();
     }
 }

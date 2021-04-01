@@ -2,21 +2,23 @@ package ru.otus.studenttest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.PropertySource;
-import ru.otus.studenttest.service.StudentServiceTestingImpl;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.otus.studenttest.service.OutputQuestionsService;
+import ru.otus.studenttest.service.ReadCsvFileService;
 
 import java.io.IOException;
 
-@PropertySource("classpath:application.properties")
 @SpringBootApplication
 public class Application {
 
     public static void main(String[] args) throws IOException {
-        ApplicationContext context = SpringApplication.run(Application.class, args);
-        StudentServiceTestingImpl service = context.getBean(StudentServiceTestingImpl.class);
+        SpringApplication.run(Application.class, args);
 
-        service.startTesting();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
+        ReadCsvFileService readCsvFileService = context.getBean(ReadCsvFileService.class);
+        OutputQuestionsService outputQuestionsService = context.getBean(OutputQuestionsService.class);
+
+        outputQuestionsService.outputQuestionsFromCsv();
     }
 
 }
