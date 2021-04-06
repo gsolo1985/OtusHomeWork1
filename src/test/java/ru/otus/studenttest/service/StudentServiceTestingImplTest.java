@@ -13,7 +13,7 @@ import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Тест сервиса по проведению тестирования студентов")
+@DisplayName("Класс проведения тестирования студентов")
 @ContextConfiguration(classes = Application.class)
 @SpringBootTest
 class StudentServiceTestingImplTest {
@@ -22,7 +22,7 @@ class StudentServiceTestingImplTest {
     private OutputQuestionsServiceImpl outputQuestionsService;
 
     @Test
-    void startTesting() throws IOException {
+    void shouldTakeTheTest() throws IOException {
         StringBuilder strings = new StringBuilder();
         strings.append("Ivan").append('\n');
         strings.append("4").append('\n');
@@ -30,14 +30,11 @@ class StudentServiceTestingImplTest {
         strings.append("8").append('\n');
         strings.append("10").append('\n');
         strings.append("13").append('\n');
-
         String data = strings.toString();
 
         //Оборачиваем строку в класс ByteArrayInputStream
         InputStream inputStream = new ByteArrayInputStream(data.getBytes());
-
         ReadConsoleServiceImpl readConsoleService = new ReadConsoleServiceImpl(inputStream);
-
         service = new StudentServiceTestingImpl(readConsoleService, outputQuestionsService);
         service.startTesting();
 

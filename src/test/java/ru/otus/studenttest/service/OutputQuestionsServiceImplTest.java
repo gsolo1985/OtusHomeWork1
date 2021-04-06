@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 @SpringBootTest
-@DisplayName("Тестирование сервиса вывода вопросов")
+@DisplayName("Класс сервиса вывода вопросов")
 class OutputQuestionsServiceImplTest {
     final private String fileName = "questions.csv";
     private ReadCsvFileServiceImpl readCsvFileService = new ReadCsvFileServiceImpl(fileName);
@@ -21,14 +21,13 @@ class OutputQuestionsServiceImplTest {
 
     @Test
     @DisplayName("Вывод правильного вопроса")
-    void outputQuestion() {
+    void shouldOutputCorrectQuestion() {
         PrintStream consoleStream = System.out;
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         ByteArrayOutputStream output2 = new ByteArrayOutputStream();
         System.setOut(new PrintStream(output)); //заменяю System.out
 
         service.outputQuestion(1);
-
         System.setOut(new PrintStream(output2));
         System.out.println("3+3");
 
@@ -38,13 +37,13 @@ class OutputQuestionsServiceImplTest {
 
     @Test
     @DisplayName("Получение правильного ответа на вопрос")
-    void getSolutionAnswer() {
+    void shouldGetSolutionAnswer() {
         Assert.assertEquals("10", service.getSolutionAnswer(3));
     }
 
     @Test
     @DisplayName("Количество вопросов в файле")
-    void getCountQuestions() {
+    void shouldGetCountQuestions() {
         Assert.assertEquals(5, service.getCountQuestions());
     }
 }

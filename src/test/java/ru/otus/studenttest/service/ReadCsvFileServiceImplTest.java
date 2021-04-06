@@ -10,15 +10,15 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Тестирование сервиса чтения файла")
+@DisplayName("Класс чтения csv-файла")
 @SpringBootTest
 class ReadCsvFileServiceImplTest {
     @Autowired
     private ReadCsvFileServiceImpl service;
 
     @Test
-    @DisplayName("Чтение файла")
-    void outputQuestions() throws IOException {
+    @DisplayName("Чтение файла c ресурсов")
+    void shouldReadFileFromResources() throws IOException {
         File file = new File(getClass().getClassLoader().getResource("questions.csv").getFile());
 
         assertThat(file).isEqualTo(service.readResourceFile());
