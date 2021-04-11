@@ -1,28 +1,24 @@
 package ru.otus.studenttest.service;
 
 import au.com.bytecode.opencsv.CSVReader;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.otus.studenttest.config.ApplicationSettings;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 @Service
-@RequiredArgsConstructor
 public class ReadCsvFileServiceImpl implements ReadCsvFileService {
+    private final ApplicationSettings applicationSettings;
 
-    @Value("${file.name}")
-    private String fileName;
-
-    public ReadCsvFileServiceImpl(String fileName) {
-        this.fileName = fileName;
+    public ReadCsvFileServiceImpl(ApplicationSettings applicationSettings) {
+        this.applicationSettings = applicationSettings;
     }
 
     @Override
     public File readResourceFile() {
-        return new File(getClass().getClassLoader().getResource(fileName).getFile());
+        return new File(getClass().getClassLoader().getResource(applicationSettings.getFilePath()).getFile());
     }
 
     @Override

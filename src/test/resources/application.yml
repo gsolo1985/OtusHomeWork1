@@ -1,0 +1,4 @@
+application:
+  file-path: questions.csv
+  trueAnswers: 3
+  locale: ru_RU

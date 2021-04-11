@@ -1,22 +1,40 @@
 package ru.otus.studenttest.service;
 
 import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.MessageSource;
+import ru.otus.studenttest.config.ApplicationSettings;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-@SpringBootTest
 @DisplayName("Класс сервиса вывода вопросов")
+@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 class OutputQuestionsServiceImplTest {
-    final private String fileName = "questions.csv";
-    private ReadCsvFileServiceImpl readCsvFileService = new ReadCsvFileServiceImpl(fileName);
-    private OutputQuestionsServiceImpl service = new OutputQuestionsServiceImpl(readCsvFileService);
+    @Mock
+    private ApplicationSettings applicationSettings;
+    @Autowired
+    private MessageSource messageSource;
 
-    OutputQuestionsServiceImplTest() throws IOException {
+    private OutputQuestionsServiceImpl service;
+
+
+    @BeforeEach
+    public void setUp() throws IOException {
+        Mockito.when(applicationSettings.getFilePath()).thenReturn("questions.csv");
+
+        ReadCsvFileServiceImpl readCsvFileService = new ReadCsvFileServiceImpl(applicationSettings);
+        service = new OutputQuestionsServiceImpl(readCsvFileService, messageSource);
     }
 
     @Test
