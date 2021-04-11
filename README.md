@@ -1,2 +1,2 @@
 # OtusHomeWork1
-Repositoruy for homeworks for Otus's course Spring Framework
+Repository for homeworks for Otus's course Spring Framework
