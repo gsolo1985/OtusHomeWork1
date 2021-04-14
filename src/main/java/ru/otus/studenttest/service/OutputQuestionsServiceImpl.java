@@ -1,5 +1,6 @@
 package ru.otus.studenttest.service;
 
+import lombok.Data;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.Locale;
 @Service
 public class OutputQuestionsServiceImpl implements OutputQuestionsService {
     private final ReadCsvFileService readCsvFileService;
-    private final List<String[]> questionList;
+    private List<String[]> questionList;
     private final MessageSource messageSource;
 
     public OutputQuestionsServiceImpl(ReadCsvFileService readCsvFileService, MessageSource messageSource) throws IOException {
@@ -20,7 +21,7 @@ public class OutputQuestionsServiceImpl implements OutputQuestionsService {
     }
 
     @Override
-    public void outputAllQuestions() throws IOException {
+    public void outputAllQuestions(){
         for (String[] question : questionList) {
             System.out.println(question[0]);
         }
