@@ -16,6 +16,7 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 @DisplayName("Класс сервиса вывода вопросов")
 @SpringBootTest
@@ -24,7 +25,7 @@ import java.util.List;
 class OutputQuestionsServiceImplTest {
     @Mock
     private ApplicationSettings applicationSettings;
-    @Autowired
+    @Mock
     private MessageSource messageSource;
 
     private OutputQuestionsServiceImpl service;
@@ -36,6 +37,9 @@ class OutputQuestionsServiceImplTest {
         // т.е. если убрать, то будет NPE
         // если заменяю на пустую строку, то получаю ошибку java.io.FileNotFoundException: D:\GIT\Otus\gsolo\OtusHomeWork1\target\test-classes (Отказано в доступе)
         Mockito.when(applicationSettings.getFilePath()).thenReturn("questions.csv");
+
+        Mockito.when(messageSource.getMessage("unit.question01", null, Locale.getDefault())).thenReturn("2+2");
+        Mockito.when(messageSource.getMessage("unit.answer01", null, Locale.getDefault())).thenReturn("4");
 
         ReadCsvFileServiceImpl readCsvFileService = new ReadCsvFileServiceImpl(applicationSettings);
         service = new OutputQuestionsServiceImpl(readCsvFileService, messageSource);
