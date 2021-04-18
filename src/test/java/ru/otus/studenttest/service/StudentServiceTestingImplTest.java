@@ -1,6 +1,5 @@
 package ru.otus.studenttest.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +40,6 @@ class StudentServiceTestingImplTest {
         Mockito.when(applicationSettings.getLocale()).thenReturn("ru_RU");
 
         StringBuilder strings = new StringBuilder();
-        strings.append("Ivan").append('\n');
         strings.append("4").append('\n');
         strings.append("6").append('\n');
         strings.append("8").append('\n');

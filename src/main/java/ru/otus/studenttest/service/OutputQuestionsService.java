@@ -5,9 +5,9 @@ import java.io.IOException;
 public interface OutputQuestionsService {
     void outputAllQuestions() throws IOException;
 
-    void outputQuestion(int questionNumber);
+    void outputQuestion(int questionNumber) throws IOException;
 
-    String getSolutionAnswer(int questionNumber);
+    String getSolutionAnswer(int questionNumber) throws IOException;
 
-    int getCountQuestions();
+    int getCountQuestions() throws IOException;
 }
