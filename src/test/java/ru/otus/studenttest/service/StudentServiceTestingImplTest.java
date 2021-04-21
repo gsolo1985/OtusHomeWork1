@@ -1,6 +1,5 @@
 package ru.otus.studenttest.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +12,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.test.context.ContextConfiguration;
 import ru.otus.studenttest.Application;
 import ru.otus.studenttest.config.ApplicationSettings;
+import ru.otus.studenttest.domain.Student;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -35,13 +35,13 @@ class StudentServiceTestingImplTest {
     private ApplicationSettings applicationSettings;
 
     @Test
+    @DisplayName("Метод тестирования студентов")
     void shouldTakeTheTest() throws IOException {
         Mockito.when(applicationSettings.getFilePath()).thenReturn("questions.csv");
         Mockito.when(applicationSettings.getTrueAnswers()).thenReturn(4);
         Mockito.when(applicationSettings.getLocale()).thenReturn("ru_RU");
 
         StringBuilder strings = new StringBuilder();
-        strings.append("Ivan").append('\n');
         strings.append("4").append('\n');
         strings.append("6").append('\n');
         strings.append("8").append('\n');
@@ -57,5 +57,19 @@ class StudentServiceTestingImplTest {
         service.startTesting();
 
         assertEquals(4, service.getCorrectAnswerCount()); // 4 правильных ответов из 5
+    }
+
+    @Test
+    @DisplayName("Логирование студентов")
+    void shouldLoginStudent() throws IOException {
+        Mockito.when(applicationSettings.getFilePath()).thenReturn("questions.csv");
+        String data = "Ivan" + '\n';
+        InputStream inputStream = new ByteArrayInputStream(data.getBytes());
+        ReadConsoleServiceImpl readConsoleService = new ReadConsoleServiceImpl(inputStream);
+
+        service = new StudentServiceTestingImpl(readConsoleService, outputQuestionsService, applicationSettings, messageSource);
+
+        Student studentLogin = service.loginStudent();
+        assertEquals("Ivan", studentLogin.getName());
     }
 }
