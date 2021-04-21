@@ -42,8 +42,8 @@ public class StudentServiceTestingImpl implements StudentServiceTesting {
         System.out.println(messageSource.getMessage("student.result", new Object[]{correctAnswerCount + "/" + questionCount}, Locale.getDefault()));
     }
 
-    @Override
-    public Student getNewStudent() throws IOException {
+    @Override //todo test
+    public Student loginStudent() throws IOException {
         Student student = new Student();
 
         System.out.println(messageSource.getMessage("student.welcome", null, Locale.getDefault()));

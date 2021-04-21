@@ -34,7 +34,7 @@ public class ShellStudentService {
 
     @ShellMethod(value = "User login", key = {"login", "l"})
     public void login() throws IOException {
-        student = service.getNewStudent();
+        student = service.loginStudent();
     }
 
     @ShellMethod(value = "Start testing", key = {"start", "test", "s", "t"})

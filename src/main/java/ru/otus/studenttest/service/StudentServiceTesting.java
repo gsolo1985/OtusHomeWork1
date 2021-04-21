@@ -7,5 +7,5 @@ import java.io.IOException;
 public interface StudentServiceTesting {
     void startTesting() throws IOException;
 
-    Student getNewStudent() throws IOException;
+    Student loginStudent() throws IOException;
 }
