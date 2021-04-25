@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:librarydb
+    schema: schema.sql
+    initialization-mode: always
+    show-sql: true
+
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        web-allow-others: true
