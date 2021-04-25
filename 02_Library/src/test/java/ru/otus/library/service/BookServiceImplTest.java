@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -26,7 +25,7 @@ class BookServiceImplTest {
     private BookService bookService;
 
     @Mock
-    BookDao bookDao;
+    private BookDao bookDao;
 
     private Book warAndPeaceBook;
     private Book uncleVanyaBook;
@@ -42,8 +41,8 @@ class BookServiceImplTest {
         dramaGenre = new Genre(10, "Drama");
         novellaGenre = new Genre(11, "Novella");
 
-        warAndPeaceBook = new Book (10, "War and Peace", tolstoyAuthor, dramaGenre);
-        uncleVanyaBook = new Book (11, "Uncle Vanya", chekhovAuthor, novellaGenre);
+        warAndPeaceBook = new Book(10, "War and Peace", tolstoyAuthor, dramaGenre);
+        uncleVanyaBook = new Book(11, "Uncle Vanya", chekhovAuthor, novellaGenre);
 
         Mockito.when(bookDao.getById(10L)).thenReturn(Optional.ofNullable(warAndPeaceBook));
         Mockito.when(bookDao.getByTitleAndAuthor("Uncle Vanya", chekhovAuthor)).thenReturn(Optional.ofNullable(uncleVanyaBook));

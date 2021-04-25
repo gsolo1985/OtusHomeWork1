@@ -34,7 +34,7 @@ class GenreDaoJdbcTest {
     void shouldReturnExpectedGenreByName() {
         var expectedGenre = new Genre(2L, "Play");
 
-        Optional<Genre > actualGenre  = dao.getByName(expectedGenre.getName());
+        Optional<Genre> actualGenre = dao.getByName(expectedGenre.getName());
 
         assertThat(actualGenre.isPresent()).isTrue();
         assertThat(actualGenre.get()).usingRecursiveComparison().isEqualTo(expectedGenre);

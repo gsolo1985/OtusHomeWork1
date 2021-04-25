@@ -5,10 +5,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.library.dao.GenreDao;
-import ru.otus.library.domain.Author;
 import ru.otus.library.domain.Genre;
-import ru.otus.library.exception.AuthorDeleteException;
-import ru.otus.library.exception.AuthorNotValidException;
 import ru.otus.library.exception.GenreDeleteException;
 import ru.otus.library.exception.GenreNotValidException;
 
@@ -28,9 +25,9 @@ class GenreServiceImplTest {
     private GenreService genreService;
 
     @Mock
-    GenreDao genreDao;
+    private GenreDao genreDao;
     @Mock
-    BookService bookService;
+    private BookService bookService;
 
     private Genre dramaGenre;
     private Genre novellaGenre;

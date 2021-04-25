@@ -25,9 +25,9 @@ class AuthorServiceImplTest {
     private AuthorService authorService;
 
     @Mock
-    AuthorDao authorDao;
+    private AuthorDao authorDao;
     @Mock
-    BookService bookService;
+    private BookService bookService;
 
     private Author tolstoyAuthor;
     private Author chekhovAuthor;

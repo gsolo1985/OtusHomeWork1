@@ -51,7 +51,7 @@ class AuthorDaoJdbcTest {
 
         assertThat(actualAuthorsList).usingFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(author1, author2, author3, author4);
-     }
+    }
 
     @DisplayName("Добавлять авторов")
     @Test
