@@ -49,7 +49,7 @@ public class AuthorDaoJdbc implements AuthorDao {
 
     @Override
     public List<Author> getAll() {
-        return jdbc.query("select * from author", new AuthorMapper());
+        return jdbc.query("select id, name from author", new AuthorMapper());
     }
 
     @Override

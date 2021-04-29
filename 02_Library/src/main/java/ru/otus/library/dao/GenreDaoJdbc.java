@@ -49,7 +49,7 @@ public class GenreDaoJdbc implements GenreDao {
 
     @Override
     public List<Genre> getAll() {
-        return jdbc.query("select * from genre", new GenreDaoJdbc.GenreMapper());
+        return jdbc.query("select id, name from genre", new GenreDaoJdbc.GenreMapper());
     }
 
     @Override

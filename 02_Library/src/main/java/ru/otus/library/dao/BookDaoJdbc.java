@@ -25,8 +25,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BookDaoJdbc implements BookDao {
     private final NamedParameterJdbcOperations jdbc;
-    private final String MAIN_QUERY_SELECT = "select b.id      as id, " +
-                                                    "b.title as title, " +
+    private final String MAIN_QUERY_SELECT = "select b.id     as id, " +
+                                                    "b.title  as title, " +
                                                     "a.id     as authorId, " +
                                                     "a.name   as authorName, " +
                                                     "g.id     as genreId, " +
