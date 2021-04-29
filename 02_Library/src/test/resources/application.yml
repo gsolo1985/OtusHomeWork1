@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:kermilov:bookdb
+    data: test-data.sql
+    initialization-mode: always
+  shell:
+    interactive:
+      enabled: false
