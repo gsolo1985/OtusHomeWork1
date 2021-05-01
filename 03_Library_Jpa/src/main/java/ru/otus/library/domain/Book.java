@@ -1,11 +1,11 @@
 package ru.otus.library.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -30,4 +30,10 @@ public class Book {
     @ManyToOne(targetEntity = Genre.class, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "genreid", nullable = false, foreignKey = @ForeignKey(name = "k03_book"))
     private Genre genre;
+
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(targetEntity = BookComment.class, mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<BookComment> comments;
 }

@@ -79,19 +79,4 @@ class BookCommentRepositoryJpaTest {
 
         assertThat(deletedComment).isNull();
     }
-
-    @DisplayName("Получать комментарии по книге")
-    @Test
-    void shouldGetByBook() {
-        val book = Book.builder().id(FIRST_BOOK_ID)
-                .author(Author.builder().id(TOLSTOY_AUTHOR_ID).name(TOLSTOY_AUTHOR_NAME).build())
-                .genre(Genre.builder().id(DRAMA_GENRE_ID).name(DRAMA_GENRE_NAME).build())
-                .title(WAR_AND_PEACE_BOOK_TITLE)
-                .build();
-
-        val comments = repositoryJpa.getByBook(book);
-
-        assertThat(comments).isNotNull().hasSize(EXPECTED_NUMBER_OF_WAR_AND_PEACE_COMMENTS)
-                .allMatch(bookComment -> bookComment.getBook() != null && bookComment.getBook().getTitle().equals(WAR_AND_PEACE_BOOK_TITLE));
-    }
 }

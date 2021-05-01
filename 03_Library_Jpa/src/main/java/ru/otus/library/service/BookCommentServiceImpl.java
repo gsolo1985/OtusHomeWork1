@@ -3,13 +3,10 @@ package ru.otus.library.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.library.domain.Book;
 import ru.otus.library.domain.BookComment;
-
 import ru.otus.library.exception.BookCommentNotValidException;
 import ru.otus.library.repositoriy.BookCommentRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,12 +39,6 @@ public class BookCommentServiceImpl implements BookCommentService {
     @Transactional
     public void delete(BookComment bookComment) {
         bookCommentRepository.delete(bookComment);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<BookComment> getByBook(Book book) {
-        return bookCommentRepository.getByBook(book);
     }
 
     @Override

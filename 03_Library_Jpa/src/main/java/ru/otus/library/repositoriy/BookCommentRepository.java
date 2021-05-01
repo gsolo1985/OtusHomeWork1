@@ -1,9 +1,7 @@
 package ru.otus.library.repositoriy;
 
-import ru.otus.library.domain.Book;
 import ru.otus.library.domain.BookComment;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface BookCommentRepository {
@@ -12,6 +10,4 @@ public interface BookCommentRepository {
     BookComment save (BookComment bookComment);
 
     void delete (BookComment bookComment);
-
-    List<BookComment> getByBook (Book book);
 }

@@ -61,8 +61,8 @@ class BookServiceImplTest {
         dramaGenre = new Genre(DRAMA_GENRE_MOCK_ID, DRAMA_GENRE_NAME);
         novellaGenre = new Genre(NOVELLA_GENRE_MOCK_ID, NOVELLA_GENRE_NAME);
 
-        warAndPeaceBook = new Book(WAR_AND_PEACE_BOOK_ID, WAR_AND_PEACE_BOOK_TITLE, tolstoyAuthor, dramaGenre);
-        uncleVanyaBook = new Book(UNCLE_VANYA_BOOK_MOCK_ID, UNCLE_VANYA_BOOK_TITLE, chekhovAuthor, novellaGenre);
+        warAndPeaceBook = Book.builder().id(WAR_AND_PEACE_BOOK_ID).title(WAR_AND_PEACE_BOOK_TITLE).genre(dramaGenre).author(tolstoyAuthor).build();
+        uncleVanyaBook = Book.builder().id(UNCLE_VANYA_BOOK_MOCK_ID).title(UNCLE_VANYA_BOOK_TITLE).genre(novellaGenre).author(chekhovAuthor).build();
 
         Mockito.when(bookRepository.getById(WAR_AND_PEACE_BOOK_ID)).thenReturn(Optional.ofNullable(warAndPeaceBook));
         Mockito.when(bookRepository.getByAuthor(tolstoyAuthor)).thenReturn(Collections.singletonList(warAndPeaceBook));
@@ -108,7 +108,7 @@ class BookServiceImplTest {
     @DisplayName("Возвращать ошибку при добавлении если нет жанра или автора")
     @Test
     void insert() {
-        Book newBook = new Book(0, "test", null, null);
+        Book newBook = Book.builder().id(0).title("test").build();
 
         Throwable thrown = assertThrows(BookNotValidException.class, () -> {
             bookService.insert(newBook);

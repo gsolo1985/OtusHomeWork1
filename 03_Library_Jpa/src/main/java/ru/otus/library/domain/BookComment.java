@@ -1,9 +1,6 @@
 package ru.otus.library.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -18,8 +15,9 @@ public class BookComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(targetEntity = Book.class, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Book.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "bookid")
+    @ToString.Exclude
     private Book book;
 
     @Column(name = "comment", unique = false)

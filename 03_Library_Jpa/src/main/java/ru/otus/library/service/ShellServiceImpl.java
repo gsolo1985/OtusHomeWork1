@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @ShellComponent
 @RequiredArgsConstructor
-public class ShellService {
+public class ShellServiceImpl {
     private final BookService bookService;
     private final AuthorService authorService;
     private final GenreService genreService;
@@ -80,7 +80,7 @@ public class ShellService {
         if (genre.isEmpty())
             return "You must enter correct genre, to see all genres in the system please use command - gs";
 
-        Book book = bookService.insert(new Book(0, title, author.get(), genre.get()));
+        Book book = bookService.insert(Book.builder().id(0).title(title).author(author.get()).genre(genre.get()).build());
 
         return "Book has created: " + book.getTitle() + ". Author = " + author.get().getName() + ". Genre = " + genre.get().getName();
     }
@@ -90,6 +90,7 @@ public class ShellService {
         bookService.getAll().forEach(System.out::println);
     }
 
+    @Transactional(readOnly = true)
     @ShellMethod(value = "Book show by title and author. Parameters = {bookTitle, authorName}", key ={"bf"})
     public String bookShowBytitleAndAuthor(@ShellOption(help = "bookTitle") String title,
                                           @ShellOption(help = "authorName") String authorName) {
@@ -97,6 +98,7 @@ public class ShellService {
         return book.map(value -> value.getTitle() + ". Author " + value.getAuthor().getName() + ". Genre = " + value.getGenre().getName()).orElse("No book find by your parameters");
     }
 
+    @Transactional
     @ShellMethod(value = "Book update. Parameters = {BookId, bookTitle, authorName, genreName}", key = {"bu"})
     public String bookUpdate(@ShellOption(help = "id") Long id,
                              @ShellOption(help = "bookTitle") String title,
@@ -114,7 +116,7 @@ public class ShellService {
         Optional<Book> book = bookService.getById(id);
 
         if (book.isPresent()) {
-            bookService.update(new Book(id, title, author.get(), genre.get()));
+            bookService.update(Book.builder().id(id).title(title).author(author.get()).genre(genre.get()).build());
             return "The book has modified.";
         }
         else
@@ -151,17 +153,19 @@ public class ShellService {
             System.out.println("The book hasn't find by this id = " + id);
     }
 
+    @Transactional
     @ShellMethod(value = "Comment show by book. Parameters = {BookId}", key = {"cs"})
     public void commentShowByBook(@ShellOption(help = "bookId") long bookId) {
         Optional<Book> book = bookService.getById(bookId);
 
-        if (book.isPresent()) {
-            List<BookComment> comments = bookCommentService.getByBook(book.get());
-            if (comments.size() > 0) {
-                System.out.println("Comments by book " + book.get().getTitle() + ": ");
-                comments.forEach(bookComment -> System.out.println("id = " + bookComment.getId() + "; comment = " + bookComment.getComment()));
+        if (book.isPresent())  {
+            if (book.get().getComments() != null && book.get().getComments().size() > 0) {
+                System.out.println("Comments by book \"" + book.get().getTitle() + "\":");
+                book.get().getComments().forEach(System.out::println);
             }
-            else System.out.println("No comments by book " + book.get().getTitle());
+            else {
+                System.out.println("Book \"" + book.get().getTitle() + "\" doesn't have any comments");
+            }
         }
         else
             System.out.println("The book hasn't find by this id = " + bookId);

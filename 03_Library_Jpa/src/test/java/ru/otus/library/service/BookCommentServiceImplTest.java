@@ -60,20 +60,11 @@ class BookCommentServiceImplTest {
         badComment = BookComment.builder().id(BAD_COMMENT_MOCK_ID).book(warAndPeaceBook).comment(BAD_COMMENT_VALUE).build();
 
         Mockito.when(bookCommentRepository.getById(GOOD_COMMENT_MOCK_ID)).thenReturn(Optional.ofNullable(goodComment));
-        Mockito.when(bookCommentRepository.getByBook(any())).thenReturn(Arrays.asList(goodComment, badComment));
     }
 
     @BeforeEach
     public void init() {
         bookCommentService = new BookCommentServiceImpl(bookCommentRepository);
-    }
-
-    @DisplayName("Возвращать комментарии по книге")
-    @Test
-    void getByBook() {
-        List<BookComment> comments = bookCommentService.getByBook(warAndPeaceBook);
-
-        assertThat(comments).hasSize(EXPECTED_NUMBER_OF_COMMENTS);
     }
 
     @DisplayName("Возвращать ошибку при добавлении если нет объекта книги")
