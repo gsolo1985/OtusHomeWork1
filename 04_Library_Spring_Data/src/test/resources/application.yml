@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:kermilov:bookdb
+    data: test-data.sql
+    initialization-mode: always
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+  shell:
+    interactive:
+      enabled: false
