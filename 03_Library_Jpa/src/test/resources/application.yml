@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:kermilov:bookdb
+    url: jdbc:h2:mem:testdb
     data: test-data.sql
     initialization-mode: always
   jpa:

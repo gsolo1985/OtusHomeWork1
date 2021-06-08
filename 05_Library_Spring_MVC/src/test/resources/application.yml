@@ -1,14 +1,11 @@
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
-    data: test-data.sql
     initialization-mode: always
+    data: classpath:test-data.sql
   jpa:
     generate-ddl: false
     hibernate:
       ddl-auto: none
 
     show-sql: true
-  shell:
-    interactive:
-      enabled: false
