@@ -42,7 +42,7 @@ class AuthorControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @DisplayName("вернуть автора по id")
@@ -61,7 +61,7 @@ class AuthorControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @DisplayName("удаление автора по id")
@@ -78,7 +78,7 @@ class AuthorControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)

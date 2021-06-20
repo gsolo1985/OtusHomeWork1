@@ -43,7 +43,7 @@ class GenreControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @DisplayName("вернуть жанр по id")
@@ -62,7 +62,7 @@ class GenreControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @DisplayName("удалить жанр по id")
@@ -79,7 +79,7 @@ class GenreControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @DisplayName("создать жанр")

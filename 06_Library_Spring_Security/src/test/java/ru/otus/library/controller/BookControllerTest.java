@@ -68,7 +68,7 @@ class BookControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @DisplayName("получение всех книг")
@@ -86,7 +86,7 @@ class BookControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @Transactional(readOnly = true)
@@ -105,7 +105,7 @@ class BookControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @Transactional
@@ -148,7 +148,7 @@ class BookControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @Transactional
@@ -183,7 +183,7 @@ class BookControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
@@ -205,7 +205,7 @@ class BookControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @Transactional
@@ -235,7 +235,7 @@ class BookControllerTest {
 
     @WithMockUser(
             username = "admin",
-            authorities = {"ADMIN"}
+            authorities = {"ROLE_ADMIN"}
     )
     @Test
     @Transactional
