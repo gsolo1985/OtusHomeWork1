@@ -1,0 +1,8 @@
+server:
+  port: 8081
+rest-template:
+  config:
+    connectTimeout: 300000
+    readTimeout: 300000
+  url:
+    getBook: http://localhost:8080/books/
