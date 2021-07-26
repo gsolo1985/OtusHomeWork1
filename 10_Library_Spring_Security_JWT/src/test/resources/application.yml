@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    initialization-mode: always
+    data: classpath:test-data.sql
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+jwt:
+  privateKey: classpath:app.key
+  publicKey: classpath:app.pub
