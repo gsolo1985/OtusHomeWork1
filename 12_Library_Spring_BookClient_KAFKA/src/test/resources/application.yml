@@ -1,0 +1,6 @@
+  shell:
+    interactive:
+      enabled: false
+  rest-template:
+    url:
+      getBook: http://localhost:8080/books/
