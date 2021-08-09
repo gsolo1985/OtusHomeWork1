@@ -1,0 +1,20 @@
+server:
+  port: 8081
+rest-template:
+  config:
+    connectTimeout: 300000
+    readTimeout: 300000
+  url:
+    getBook: http://localhost:8080/books/
+
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id: "library"
+
+library:
+  kafka-topic-name:
+    get-out-msg: book-msg-get-out
+    get-out-book: book-get-out
+
