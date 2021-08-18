@@ -1,0 +1,17 @@
+spring:
+  shell:
+    interactive:
+      enabled: false
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id: "deals"
+
+deals:
+  kafka-topic-name:
+    new-oper-date: new-oper-date
+    currency-rate-by-date-out: currency-rate-by-date-out
+
+currencyLayer:
+  url: ${CURRENCY_LAYER_URL:localhost:http://api.currencylayer.com/}
+  access_key: ${CURRENCY_LAYER_ACCESS_KEY:c6a11e7106be15acd40b91cf577f3697}

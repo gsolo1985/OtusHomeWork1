@@ -1,0 +1,37 @@
+server:
+  port: 8083
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id: "deals"
+  datasource:
+    url: jdbc:h2:mem:librarydb
+    schema: classpath:schema.sql
+    initialization-mode: always
+    show-sql: true
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+    show-sql: false
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+deals:
+  kafka-topic-name:
+    new-oper-date: new-oper-date
+
+OperDates:
+    daysAdd: 10
+    startDate: 2018-09-03
+
+schedulerTask:
+  operDateProcessing:
+    interval: 8000

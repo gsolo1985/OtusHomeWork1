@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS OperDate;
+DROP TABLE IF EXISTS BusinessProcess;
+DROP TABLE IF EXISTS BusinessProcess;
+DROP TABLE IF EXISTS BusinessProcessByOperDate;
+
+CREATE TABLE OperDate (OperDateID BIGINT IDENTITY PRIMARY KEY, OperDate DATE, Status TINYINT);
+CREATE TABLE BusinessProcess (BusinessProcessID BIGINT IDENTITY PRIMARY KEY, SysName VARCHAR(60), OrderType INT);
+CREATE TABLE BusinessProcessByOperDate (BusinessProcessByOperDateID BIGINT IDENTITY PRIMARY KEY, OperDate DATE, BusinessProcessID BIGINT);
+
