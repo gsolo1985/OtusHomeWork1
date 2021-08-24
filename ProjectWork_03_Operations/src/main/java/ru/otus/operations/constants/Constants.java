@@ -6,16 +6,19 @@ import lombok.RequiredArgsConstructor;
 public enum Constants {
     EMPTY("", Empty.values()),
     BUSINESS_PROCESS_SYS_NAME("Список бизнес-процессов", BusinessProcessSysName.values()),
-    OPER_DATE_STATUS("Статус операционного дня", OperDateStatus.values());
+    OPER_DATE_STATUS("Статус операционного дня", OperDateStatus.values()),
+    BUSINESS_PROCESS_BY_DATE_STATUS("Статус обработки бизнес-процесса за дату", BusinessProcessByDateStatus.values()),
+    SECURITY_TYPE("Тип ценной бумаги", SecurityType.values()),
+    DEAL_TYPE("Сделка покупка/продажа", DealType.values());
 
     @RequiredArgsConstructor
     public enum BusinessProcessSysName implements ConstantsValue {
         EMPTY(""),
-        CHECK_START_DAY_DATA("Проверка корректности данных на начало дня"),
+        CHECK_START_DAY_DATA("Подготовка к открытию операционного дня"),
         OPEN_OPER_DATE("Открытие операционного дня"),
         OPERATIONS_CREATE("Заведение операций"),
-        OPERATIONS_EXECUTION("Исполнение операций"),
         OPERATIONS_CANCEL("Отмена операций"),
+        OPERATIONS_EXECUTION("Исполнение операций"),
         OPERATIONS_CURRENCY_REVAL("Валютная переоценка"),
         CLOSE_OPER_DATE("Закрытие операционного дня");
 
@@ -28,6 +31,36 @@ public enum Constants {
         EMPTY("-"),
         OPEN("Операционный день открыт"),
         CLOSE("Операционный день закрыт");
+
+        private final String name;
+        public String getName() {return name;}
+    }
+
+    @RequiredArgsConstructor
+    public enum BusinessProcessByDateStatus implements ConstantsValue {
+        EMPTY("-"),
+        PROCESSING("В обработке"),
+        PROCESSED("Обработан");
+
+        private final String name;
+        public String getName() {return name;}
+    }
+
+    @RequiredArgsConstructor
+    public enum SecurityType implements ConstantsValue {
+        EMPTY("-"),
+        SHARE("Акция"),
+        BOND("Облигация");
+
+        private final String name;
+        public String getName() {return name;}
+    }
+
+    @RequiredArgsConstructor
+    public enum DealType implements ConstantsValue {
+        EMPTY("-"),
+        BUY("Покупка"),
+        SELL("Продажа");
 
         private final String name;
         public String getName() {return name;}

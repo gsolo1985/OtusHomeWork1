@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DateMessageOutPublishGatewayImpl implements DateMessageOutPublishGateway {
-    private final KafkaTemplate<String, DateMessage> kafkaTemplate;
+    private final KafkaTemplate<String, DateMessage> kafkaTemplateD;
 
     @Value(value = "${deals.kafka-topic-name.new-oper-date}")
     private String channel;
 
     @Override
     public void publish(DateMessage msg) {
-        kafkaTemplate.send(channel, msg);
+        kafkaTemplateD.send(channel, msg);
     }
 }

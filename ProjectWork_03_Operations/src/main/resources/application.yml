@@ -9,7 +9,7 @@ spring:
     url: jdbc:h2:mem:librarydb
     schema: classpath:schema.sql
     initialization-mode: always
-    show-sql: true
+    show-sql: false
   jpa:
     generate-ddl: false
     hibernate:
@@ -27,6 +27,8 @@ spring:
 deals:
   kafka-topic-name:
     new-oper-date: new-oper-date
+    operation-reval-out: operation-reval-out
+    calc-reval-out: calc-reval-out
 
 OperDates:
     daysAdd: 10
@@ -34,4 +36,13 @@ OperDates:
 
 schedulerTask:
   operDateProcessing:
-    interval: 8000
+    interval: 800000
+
+dealGenerate:
+  numberByDate: 20
+  numberT2: 14
+  numberT1: 2
+  cancel: 2
+
+nationalCurrency:
+  name: RUB

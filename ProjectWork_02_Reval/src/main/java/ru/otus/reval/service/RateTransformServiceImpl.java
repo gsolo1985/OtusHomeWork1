@@ -2,7 +2,7 @@ package ru.otus.reval.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.reval.consumer.CurrencyRateDto;
+import ru.otus.reval.consumer.currencyRate.CurrencyRateDto;
 import ru.otus.reval.domain.CurrencyEntity;
 import ru.otus.reval.domain.CurrencyRateEntity;
 import ru.otus.reval.repository.CurrencyRepository;
@@ -10,13 +10,16 @@ import ru.otus.reval.repository.CurrencyRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class RateTransformServiceImpl implements RateTransformService {
     private final CurrencyRepository currencyRepository;
 
+    /**
+     * Установить валюту из БД в списке курсов/котировок
+     * @param rates - dto список котировок
+     */
     @Override
     public void setCurrencyEntityToListRateDto(List<CurrencyRateDto> rates) {
         for (var currencyRateDto : rates) {
@@ -46,6 +49,11 @@ public class RateTransformServiceImpl implements RateTransformService {
         }
     }
 
+    /**
+     * Преобразование объектов-dto в объекты-entity
+     * @param rates - объекты-dto
+     * @return - объекты-entity
+     */
     @Override
     public List<CurrencyRateEntity> getCurrencyRateEntityFromRateDto(List<CurrencyRateDto> rates) {
         List<CurrencyRateEntity> result = new ArrayList<>();

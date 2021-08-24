@@ -3,7 +3,6 @@ package ru.otus.reval.controller;
 import lombok.AllArgsConstructor;
 import lombok.Generated;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.reval.domain.CurrencyEntity;
 import ru.otus.reval.exception.NotFoundException;
@@ -36,9 +35,8 @@ public class CurrencyController {
     }
 
     @GetMapping("/currencies/")
-    @Transactional(readOnly = true)
     public List<CurrencyGet> getCurrencies() {
-        var currencies = repository.findAll();
+        var currencies = service.findAll();
         List<CurrencyGet> result = new ArrayList<>();
 
         currencies.forEach(c -> result.add(service.transformToDto(c)));
@@ -47,12 +45,11 @@ public class CurrencyController {
     }
 
     @DeleteMapping("/currencies/{id}")
-    @Transactional
     public ResponseEntity<Void> deleteCurrency(
             @Valid
             @PathVariable(name = "id") Long id) {
         CurrencyEntity currencyEntity = service.getById(id).orElseThrow(NotFoundException::new);
-        repository.delete(currencyEntity);
+        service.delete(currencyEntity);
         return ResponseEntity.noContent().build();
     }
 

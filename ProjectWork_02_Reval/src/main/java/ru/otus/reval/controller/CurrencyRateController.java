@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.reval.model.CurrencyRateGet;
-import ru.otus.reval.repository.CurrencyRateRepository;
 import ru.otus.reval.service.CurrencyRateService;
 
 import javax.validation.Valid;
@@ -18,7 +17,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class CurrencyRateController {
     private CurrencyRateService service;
-    private CurrencyRateRepository repository;
 
     @GetMapping("/currencyRates/{id}")
     public CurrencyRateGet getRateById(
@@ -33,7 +31,7 @@ public class CurrencyRateController {
             @Valid
             @PathVariable(name = "id") Long id) {
         CurrencyRateGet rate = service.getById(id);
-        repository.deleteById(rate.getId());
+        service.deleteById(rate.getId());
         return ResponseEntity.noContent().build();
     }
 

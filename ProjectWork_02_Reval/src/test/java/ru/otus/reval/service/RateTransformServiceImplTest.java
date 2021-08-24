@@ -4,7 +4,7 @@ import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.otus.reval.consumer.CurrencyRateDto;
+import ru.otus.reval.consumer.currencyRate.CurrencyRateDto;
 import ru.otus.reval.domain.CurrencyEntity;
 import ru.otus.reval.domain.CurrencyRateEntity;
 import ru.otus.reval.repository.CurrencyRepository;

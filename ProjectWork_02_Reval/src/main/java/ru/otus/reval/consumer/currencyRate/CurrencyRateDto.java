@@ -1,4 +1,4 @@
-package ru.otus.reval.consumer;
+package ru.otus.reval.consumer.currencyRate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,7 @@
 package ru.otus.reval.service;
 
 import lombok.RequiredArgsConstructor;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.reval.domain.CurrencyEntity;
@@ -8,6 +9,7 @@ import ru.otus.reval.exception.CurrencyNotValidException;
 import ru.otus.reval.model.CurrencyGet;
 import ru.otus.reval.repository.CurrencyRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,18 +19,49 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     private static final String INSERT_ERROR = "New currency insert error: ";
 
+    /**
+     * Получение валюты по id
+     * @param id - идентификатор
+     * @return - валюта
+     */
     @Override
     @Transactional(readOnly = true)
     public Optional<CurrencyEntity> getById(long id) {
         return repository.findById(id);
     }
 
+    /**
+     * Получение валюты по имени
+     * @param name - имя валюты
+     * @return - валюта
+     */
     @Override
     @Transactional(readOnly = true)
     public Optional<CurrencyEntity> getByName(String name) {
         return repository.findByName(name);
     }
 
+    /**
+     * Получение всех валют
+     * @return - список валют
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<CurrencyEntity> findAll() {
+        return Lists.newArrayList(repository.findAll());
+    }
+
+    @Override
+    @Transactional
+    public void delete(CurrencyEntity currencyEntity) {
+        repository.delete(currencyEntity);
+    }
+
+    /**
+     * Преобразование entity в dto
+     * @param currencyEntity - entity
+     * @return - dto
+     */
     @Override
     public CurrencyGet transformToDto(CurrencyEntity currencyEntity) {
         if (currencyEntity != null) {
@@ -41,6 +74,11 @@ public class CurrencyServiceImpl implements CurrencyService {
         return new CurrencyGet();
     }
 
+    /**
+     * Преобразование dto в entity
+     * @param dto - dto
+     * @return - entity
+     */
     @Override
     public CurrencyEntity transformToEntity(CurrencyGet dto) {
         if (dto != null) {
@@ -53,6 +91,11 @@ public class CurrencyServiceImpl implements CurrencyService {
         return new CurrencyEntity();
     }
 
+    /**
+     * Сохранение валюты
+     * @param currencyEntity - валюта
+     * @return - сохраненный объект
+     */
     @Override
     @Transactional
     public CurrencyEntity save(CurrencyEntity currencyEntity) {

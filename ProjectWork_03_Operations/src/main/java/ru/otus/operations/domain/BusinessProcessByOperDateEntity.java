@@ -11,12 +11,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "BusinessProcess")
+@Table(name = "BusinessProcessByOperDate")
 public class BusinessProcessByOperDateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BusinessProcessByOperDateID")
-    private Long businessProcessByOperDateID;
+    private Long businessProcessByOperDateId;
 
     @NaturalId
     @Column(name = "OperDate")
@@ -26,6 +26,9 @@ public class BusinessProcessByOperDateEntity {
     @ManyToOne(targetEntity = BusinessProcessEntity.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "BusinessProcessID")
     @ToString.Exclude
-    protected BusinessProcessEntity businessProcessEntity;
+    private BusinessProcessEntity businessProcessEntity;
+
+    @Column(name = "Status")
+    private int status;
 
 }

@@ -21,6 +21,11 @@ public class CurrencyRateServiceImpl implements CurrencyRateService {
 
     private static final String INSERT_ERROR = "New currency rate insert error: ";
 
+    /**
+     * Сохранить сущность котировка
+     * @param currencyRateEntity - entity-объект котировка
+     * @return - сохраненный объект
+     */
     @Override
     @Transactional
     public CurrencyRateEntity save(CurrencyRateEntity currencyRateEntity) {
@@ -53,6 +58,11 @@ public class CurrencyRateServiceImpl implements CurrencyRateService {
         return currencyRateRepository.save(currencyRateEntity);
     }
 
+    /**
+     * Сохранить котировку из dto-объекта
+     * @param currencyRateGet - Dto
+     * @return - сохраненный объект
+     */
     @Override
     @Transactional
     public CurrencyRateEntity saveDto(CurrencyRateGet currencyRateGet) {
@@ -92,6 +102,11 @@ public class CurrencyRateServiceImpl implements CurrencyRateService {
         return save(saveRate);
     }
 
+    /**
+     * Получить dto-объект котировки по id
+     * @param id - идентификатор котировки
+     * @return - котировка
+     */
     @Override
     @Transactional(readOnly = true)
     public CurrencyRateGet getById(long id) {
@@ -103,6 +118,12 @@ public class CurrencyRateServiceImpl implements CurrencyRateService {
         return new CurrencyRateGet();
     }
 
+    /**
+     * Получить курс по валютной паре за дату
+     * @param currencyPair - валютная пара в формате "USDRUB"
+     * @param date - дата
+     * @return - котировка
+     */
     @Override
     @Transactional(readOnly = true)
     public CurrencyRateGet getByCurrencyPairAndDate(String currencyPair, LocalDate date) {
@@ -126,6 +147,11 @@ public class CurrencyRateServiceImpl implements CurrencyRateService {
         return new CurrencyRateGet();
     }
 
+    /**
+     * Преобразование entity в dto
+     * @param currencyRateEntity - entity
+     * @return - dto
+     */
     @Override
     public CurrencyRateGet transformToDto(CurrencyRateEntity currencyRateEntity) {
         if (currencyRateEntity != null) {
@@ -140,5 +166,15 @@ public class CurrencyRateServiceImpl implements CurrencyRateService {
                     .build();
         }
         return new CurrencyRateGet();
+    }
+
+    /**
+     * Удаление по id
+     * @param id - идентификатор
+     */
+    @Override
+    @Transactional
+    public void deleteById(long id) {
+        currencyRateRepository.deleteById(id);
     }
 }
