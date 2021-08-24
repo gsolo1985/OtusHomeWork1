@@ -5,6 +5,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import ru.otus.currencyAdapter.feign.CurrencyLayer;
 import ru.otus.currencyAdapter.publish.CurrencyRateByDateOutPublishGateway;
+import ru.otus.currencyAdapter.publish.CurrencyRateDtoList;
 import ru.otus.currencyAdapter.service.RateTransformService;
 
 import java.io.IOException;
@@ -30,7 +31,12 @@ public class DateGetListenerImpl implements DateGetListener {
         if (date != null) {
             System.out.println("Открыт новый операционный день. Запрашиваем валюты за " + date);
             var rates = rateTransformService.layerTransformToDto(currencyLayer.getRatesByDate(date.format(formatter)), 0);
-            rates.forEach(gateway::publish);
+
+            if (rates.size() > 0) {
+                gateway.publish(CurrencyRateDtoList.builder()
+                        .currencyRateDtoList(rates)
+                        .build());
+            }
         }
     }
 }

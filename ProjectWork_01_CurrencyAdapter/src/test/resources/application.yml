@@ -6,6 +6,8 @@ spring:
     bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
     consumer:
       group-id: "deals"
+      properties:
+        spring.json.trusted.packages: "ru.otus.operations.publish.newoperday.DateMessage"
 
 deals:
   kafka-topic-name:

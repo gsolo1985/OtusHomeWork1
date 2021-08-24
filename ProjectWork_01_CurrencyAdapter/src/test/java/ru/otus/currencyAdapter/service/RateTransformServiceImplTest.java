@@ -6,7 +6,6 @@ import ru.otus.currencyAdapter.publish.CurrencyRateDto;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 

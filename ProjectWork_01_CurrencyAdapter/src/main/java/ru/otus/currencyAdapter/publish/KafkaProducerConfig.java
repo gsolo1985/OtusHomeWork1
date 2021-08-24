@@ -20,7 +20,7 @@ public class KafkaProducerConfig {
     private String kafkaServer;
 
     @Bean
-    public ProducerFactory<String, CurrencyRateDto> producerFactory() {
+    public ProducerFactory<String, CurrencyRateDtoList> producerFactory() {
 
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -34,7 +34,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, CurrencyRateDto> kafkaTemplate() {
+    public KafkaTemplate<String, CurrencyRateDtoList> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

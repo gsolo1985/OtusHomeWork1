@@ -5,12 +5,13 @@ spring:
   kafka:
     bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
     consumer:
-      group-id: "deals"
+      group-id: "currAdp"
 
 deals:
   kafka-topic-name:
     new-oper-date: new-oper-date
     currency-rate-by-date-out: currency-rate-by-date-out
+    operation-reval-out: operation-reval-out
 
 currencyLayer:
   url: ${CURRENCY_LAYER_URL:localhost:http://api.currencylayer.com/}

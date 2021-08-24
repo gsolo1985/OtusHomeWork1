@@ -16,6 +16,9 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class RateTransformServiceImpl implements RateTransformService {
+    /**
+     *Преобразование объектов из источника данных в объект для отправку в кафку
+     */
     @Override
     public List<CurrencyRateDto> layerTransformToDto(Map<String, Object> layer, int parseMode) throws IOException {
         List<CurrencyRateDto> result = new ArrayList<>();
