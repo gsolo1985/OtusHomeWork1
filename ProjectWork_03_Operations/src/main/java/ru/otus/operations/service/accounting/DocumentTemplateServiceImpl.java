@@ -26,6 +26,6 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
     @Override
     @Transactional(readOnly = true)
     public List<DocumentTemplateEntity> getDocTemplateForOperation(OperationEntity operationEntity) {
-        return Lists.newArrayList(repository.findAll()).stream().filter(t -> t.getOperState().equals(operationEntity.getState())).collect(Collectors.toList());
+        return Lists.newArrayList(repository.findAll()).stream().filter(t -> t.getOperStateName().equals(operationEntity.getState().getName())).collect(Collectors.toList());
     }
 }

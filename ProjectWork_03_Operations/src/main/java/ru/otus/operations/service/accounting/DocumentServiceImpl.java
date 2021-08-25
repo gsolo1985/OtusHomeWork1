@@ -22,7 +22,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public DocumentEntity save(DocumentEntity documentEntity) {
-        if (documentEntity != null) {
+        if (documentEntity == null) {
             throw new DocumentException(INSERT_ERROR + " document isn't define.");
         }
 

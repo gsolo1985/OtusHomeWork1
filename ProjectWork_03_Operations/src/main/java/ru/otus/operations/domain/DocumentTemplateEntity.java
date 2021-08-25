@@ -22,13 +22,12 @@ public class DocumentTemplateEntity {
     private Long documentTemplateId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "State")
+    @Column(name = "DocType")
     private DocType docType;
 
     @Column(name = "DocComment")
     private String comment;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "OperState")
-    private OperationState operState;
+    private String operStateName;
 }

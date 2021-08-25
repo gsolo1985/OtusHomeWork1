@@ -116,10 +116,8 @@ public class GenerateOperationServiceImpl implements GenerateOperationService {
 
             System.out.println("Загружено " + result.size() + " операций. Из которых со сроком сегодня - " + (dealCount - numberT2 - numberT1) + ", со сроком 1 день - " + numberT1 + ", со сроком 2 дня - " + numberT2);
 
+            result = operationService.saveAll(result);
             result.forEach(operationStateMachine::loadOperation); // раскрутка стейт машины
-
-            businessProcessByOperDateService.setBusinessProcessesByOperDateStatus(operDateEntity, OPERATIONS_CREATE_SYS_NAME, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // пометим бизнес-процесс как обработанный
-            return operationService.saveAll(result);
         }
 
         businessProcessByOperDateService.setBusinessProcessesByOperDateStatus(operDateEntity, OPERATIONS_CREATE_SYS_NAME, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // пометим бизнес-процесс как обработанный

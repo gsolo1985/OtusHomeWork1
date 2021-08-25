@@ -64,10 +64,11 @@ public class CancelOperationServiceImpl implements CancelOperationService {
 
             System.out.println("Отменено " + result.size() + " операций");
 
-            result.forEach(operationStateMachine::cancelOperation); // раскрутка стейт машины
+            var res = operationService.saveAll(result);
+            res.forEach(operationStateMachine::cancelOperation); // раскрутка стейт машины
 
             businessProcessByOperDateService.setBusinessProcessesByOperDateStatus(operDateEntity, OPERATIONS_CANCEL_SYS_NAME, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // пометим бизнес-процесс как обработанный
-            return operationService.saveAll(result);
+            return res;
         }
         businessProcessByOperDateService.setBusinessProcessesByOperDateStatus(operDateEntity, OPERATIONS_CANCEL_SYS_NAME, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // пометим бизнес-процесс как обработанный
         return result;

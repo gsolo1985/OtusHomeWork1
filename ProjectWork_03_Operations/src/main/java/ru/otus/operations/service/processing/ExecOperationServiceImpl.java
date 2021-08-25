@@ -45,10 +45,11 @@ public class ExecOperationServiceImpl implements ExecOperationService {
 
             System.out.println("Исполнено " + result.size() + " операций");
 
-            result.forEach(operationStateMachine::execOperation); // раскрутка стейт машины
+            var res = operationService.saveAll(result);
+            res.forEach(operationStateMachine::execOperation); // раскрутка стейт машины
 
             businessProcessByOperDateService.setBusinessProcessesByOperDateStatus(operDateEntity, OPERATIONS_EXECUTION_SYS_NAME, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // пометим бизнес-процесс как обработанный
-            return operationService.saveAll(result);
+            return res;
         }
         businessProcessByOperDateService.setBusinessProcessesByOperDateStatus(operDateEntity, OPERATIONS_EXECUTION_SYS_NAME, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // пометим бизнес-процесс как обработанный
         return result;

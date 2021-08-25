@@ -38,7 +38,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Operat
         StateMachineListenerAdapter<OperationState, OperationEvent> adapter = new StateMachineListenerAdapter<>() {
             @Override
             public void stateChanged(State<OperationState, OperationEvent> from, State<OperationState, OperationEvent> to) {
-                System.out.println(String.format("operation stateChanged(from: %s, to %s", from.getIds(), to.getIds()));
+               // System.out.println(String.format("operation stateChanged(from: %s, to %s", from.getIds(), to.getIds()));
             }
         };
 

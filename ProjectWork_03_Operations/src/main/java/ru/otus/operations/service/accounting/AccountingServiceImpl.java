@@ -52,7 +52,7 @@ public class AccountingServiceImpl implements AccountingService {
         templates.forEach(t -> {
             BigDecimal amount = getAmountForDocument(t.getDocType(), operationEntity, operDate);
 
-            if (amount.compareTo(BigDecimal.ZERO) > 0) {
+            if (amount != null) {
                 result.add(DocumentEntity.builder()
                         .amount(amount)
                         .comment(t.getComment())
@@ -90,6 +90,6 @@ public class AccountingServiceImpl implements AccountingService {
             }
         }
 
-        return BigDecimal.ZERO;
+        return null;
     }
 }
