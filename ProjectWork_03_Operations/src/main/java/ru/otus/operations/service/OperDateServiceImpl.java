@@ -32,8 +32,7 @@ public class OperDateServiceImpl implements OperDateService {
 
         if (!repository.existsByOperDateIdGreaterThan(0L)) {
             addDates(LocalDate.parse(startDateStr).minusDays(1));
-        }
-        else {
+        } else {
             var operDate = repository.findTop1ByStatusOrderByOperDateDesc(Constants.OperDateStatus.EMPTY.ordinal()); // последний необработанный день
 
             if (operDate.isEmpty()) {
@@ -90,6 +89,7 @@ public class OperDateServiceImpl implements OperDateService {
      * Закрыть операционный день
      */
     @Override
+    @Transactional
     public void closeOperDay(LocalDate date) {
         repository.findByOperDate(date).ifPresent(this::closeOperDay);
     }
@@ -98,6 +98,7 @@ public class OperDateServiceImpl implements OperDateService {
      * Закрыть операционный день
      */
     @Override
+    @Transactional
     public void closeOperDay(OperDateEntity operDateEntity) {
         System.out.println("Закрываем операционный день: " + operDateEntity.getOperDate());
         operDateEntity.setStatus(Constants.OperDateStatus.CLOSE.ordinal());

@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface RevalRepository extends CrudRepository<RevalEntity, Long> {
-    Optional<RevalEntity> findByOperationAndOperDate(OperationEntity operationEntity, LocalDate operDate);
+    Optional<RevalEntity> findByOperationEntityAndOperDate(OperationEntity operationEntity, LocalDate operDate);
 }

@@ -1,4 +1,4 @@
-package ru.otus.operations.state;
+package ru.otus.operations.statemachine;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

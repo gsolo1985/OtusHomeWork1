@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.otus.operations.domain.OperationEntity;
-import ru.otus.operations.state.OperationState;
+import ru.otus.operations.statemachine.OperationState;
 
 import java.time.LocalDate;
 import java.util.List;

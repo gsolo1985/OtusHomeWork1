@@ -14,7 +14,6 @@ public enum Constants {
     @RequiredArgsConstructor
     public enum BusinessProcessSysName implements ConstantsValue {
         EMPTY(""),
-        CHECK_START_DAY_DATA("Подготовка к открытию операционного дня"),
         OPEN_OPER_DATE("Открытие операционного дня"),
         OPERATIONS_CREATE("Заведение операций"),
         OPERATIONS_CANCEL("Отмена операций"),

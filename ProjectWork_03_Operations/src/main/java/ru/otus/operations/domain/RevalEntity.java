@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.otus.operations.state.OperationState;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -29,7 +27,7 @@ public class RevalEntity {
     private OperationEntity operationEntity;
 
     @Column(name = "OperDate")
-    private LocalDate OperDate;
+    private LocalDate operDate;
 
     @Column(name = "RevalValue")
     private BigDecimal revalValue;

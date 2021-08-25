@@ -16,6 +16,7 @@ import ru.otus.reval.service.RevalService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -51,8 +52,9 @@ public class KafKaConsumerService {
     /**
      * Слушатель события по запросу расчета переоценки
      */
-    public void consume(OperationRevalDtoList msg) {
+    public void consume(OperationRevalDtoList msg) throws InterruptedException {
         List<RevalOperation> operationList = new ArrayList<>();
+        TimeUnit.SECONDS.sleep(3); // ждем 3 секунды, чтобы адаптер по валютам успел отработать и у нас были все курсы
 
         if (msg.getOperationList() != null) {
             System.out.println("Получили списиок операций для расчета переоценки в размере: " + msg.getOperationList().size());

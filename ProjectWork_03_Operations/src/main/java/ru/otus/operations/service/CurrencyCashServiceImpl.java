@@ -7,8 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.operations.domain.CurrencyCashEntity;
 import ru.otus.operations.repository.CurrencyCashRepository;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class CurrencyCashServiceImpl implements CurrencyCashService {
@@ -28,6 +26,7 @@ public class CurrencyCashServiceImpl implements CurrencyCashService {
 
     /**
      * Получить валюту по имени (Если такой валюты нет, то она будет добавлена)
+     *
      * @param name - имя
      * @return - валюта
      */
@@ -41,11 +40,12 @@ public class CurrencyCashServiceImpl implements CurrencyCashService {
 
     /**
      * Сохранить валюту
+     *
      * @param currency - валюта
      * @return - сохраненный объект
      */
-    @Transactional()
     @Override
+    @Transactional
     public CurrencyCashEntity save(CurrencyCashEntity currency) {
         return repository.save(currency);
     }

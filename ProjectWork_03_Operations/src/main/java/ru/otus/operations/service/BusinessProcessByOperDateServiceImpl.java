@@ -2,24 +2,29 @@ package ru.otus.operations.service;
 
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.operations.constants.Constants;
 import ru.otus.operations.domain.BusinessProcessByOperDateEntity;
 import ru.otus.operations.domain.OperDateEntity;
+import ru.otus.operations.integration.OperDateMessage;
 import ru.otus.operations.repository.BusinessProcessByOperDateRepository;
 import ru.otus.operations.repository.BusinessProcessRepository;
 
 import java.util.stream.Collectors;
 
-import static ru.otus.operations.constants.BusinessProcessConstants.BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSING;
-import static ru.otus.operations.constants.BusinessProcessConstants.CLOSE_OPER_DATE_SYS_NAME;
+import static ru.otus.operations.constants.BusinessProcessConstants.*;
 
 @Service
 @RequiredArgsConstructor
 public class BusinessProcessByOperDateServiceImpl implements BusinessProcessByOperDateService {
     private final BusinessProcessByOperDateRepository repository;
     private final BusinessProcessRepository businessProcessRepository;
+    private final OperDateMessage operDateMessage;
+
+    @Value(value = "${app_mode}")
+    private int appMode;
 
     /**
      * Добавить все бизнес-процессы в обработку за дату
@@ -60,10 +65,25 @@ public class BusinessProcessByOperDateServiceImpl implements BusinessProcessByOp
                 repository.save(bpbd);
             });
         });
+
+        // проверяем все ли БП завершены, если все - то при appMode = 0, отправляем событие, чтобы закрыть опер. день
+        if (!businessProcessEntitySysName.equals(CLOSE_OPER_DATE_SYS_NAME)) {
+            boolean checkAllProcessEnd = checkProcessChainEndByOperDate(operDateEntity);
+
+            if (checkAllProcessEnd && appMode == 0) {
+                System.out.println(BUSINESS_PROCESS_END_BP_INFO);
+                operDateMessage.businessProcessExec(CLOSE_OPER_DATE_SYS_NAME);
+            }
+
+            if (checkAllProcessEnd && appMode == 1) {
+                System.out.println(BUSINESS_PROCESS_END_BP_INFO);
+            }
+        }
+
     }
 
     /**
-     * Проверить, все ли настроенные бизнес-процессы завершены за дату (за исключением бизнес-процесса "закрытие операционного дня")
+     * Проверить, все ли настроенные бизнес-процессы завершены за дату (за исключением бизнес-процессов "закрытие операционного дня" и "Подготовка к открытию операционного дня")
      *
      * @param operDateEntity - дата
      * @return - true, если все бизнес-процессы завершены
@@ -72,7 +92,11 @@ public class BusinessProcessByOperDateServiceImpl implements BusinessProcessByOp
     @Transactional(readOnly = true)
     public boolean checkProcessChainEndByOperDate(OperDateEntity operDateEntity) {
         boolean result = true;
-        var businessProcesses = Lists.newArrayList(businessProcessRepository.findAll()).stream().filter(p -> !p.getSysName().equals(CLOSE_OPER_DATE_SYS_NAME)).collect(Collectors.toList());
+        var businessProcesses = Lists.newArrayList(businessProcessRepository.findAll())
+                .stream()
+                .filter(p -> !p.getSysName().equals(CLOSE_OPER_DATE_SYS_NAME))
+                .collect(Collectors.toList());
+
         var processList = repository.findByOperDate(operDateEntity.getOperDate());
 
         for (var bp : businessProcesses) {

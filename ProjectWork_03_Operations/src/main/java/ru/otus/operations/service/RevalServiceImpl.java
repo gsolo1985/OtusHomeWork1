@@ -3,10 +3,15 @@ package ru.otus.operations.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.operations.consumer.RevalOperation;
+import ru.otus.operations.domain.OperationEntity;
 import ru.otus.operations.domain.RevalEntity;
 import ru.otus.operations.exception.RevalNotValidException;
 import ru.otus.operations.repository.RevalRepository;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +50,7 @@ public class RevalServiceImpl implements RevalService {
             throw new RevalNotValidException(INSERT_ERROR + "operation isn't defined");
         }
 
-        var revalFind = repository.findByOperationAndOperDate(oper, reval.getOperDate());
+        var revalFind = repository.findByOperationEntityAndOperDate(oper, reval.getOperDate());
 
         revalFind.ifPresent(revalEntity -> reval.setRevalId(revalEntity.getRevalId()));
         return repository.save(reval);
@@ -72,16 +77,29 @@ public class RevalServiceImpl implements RevalService {
                 .currencyEntity(natCurrency)
                 .currencyRevalEntity(revalCurrency)
                 .operationEntity(operationEntity)
-                .OperDate(dto.getRevalDate())
+                .operDate(dto.getRevalDate())
                 .revalValue(dto.getRevalAmount())
                 .build())
                 .orElse(RevalEntity.builder()
                         .currencyEntity(natCurrency)
                         .currencyRevalEntity(revalCurrency)
                         .operationEntity(null)
-                        .OperDate(dto.getRevalDate())
+                        .operDate(dto.getRevalDate())
                         .revalValue(dto.getRevalAmount())
                         .build());
+    }
+
+    /**
+     * Получить переоценку по операции на дату
+     *
+     * @param operationEntity - операция
+     * @param localDate       - дата
+     * @return - переоценка
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<RevalEntity> getRevalByOperationAndDate(OperationEntity operationEntity, LocalDate localDate) {
+        return repository.findByOperationEntityAndOperDate(operationEntity, localDate);
     }
 
 }

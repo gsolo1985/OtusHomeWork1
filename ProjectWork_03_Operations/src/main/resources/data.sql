@@ -1,12 +1,16 @@
 --Заполнение таблицы с переченью бизнес-процессов:
 insert into BusinessProcess(SysName, OrderType)
-select 'CHECK_START_DAY_DATA', 0 union all
 select 'OPEN_OPER_DATE', 1 union all
 select 'OPERATIONS_CREATE', 2 union all
 select 'OPERATIONS_CANCEL', 3 union all
-select 'OPERATIONS_EXECUTION', 4 union all
-select 'OPERATIONS_CURRENCY_REVAL', 5 union all
+select 'OPERATIONS_CURRENCY_REVAL', 4 union all
+select 'OPERATIONS_EXECUTION', 5 union all
 select 'CLOSE_OPER_DATE', 99;
+
+insert into DocumentTemplate (DocType, DocComment, OperState)
+select 'DOC_TYPE_CANCEL', 'Документ на отмену по операции с ценной бумагой', 'Отменена' union all
+select 'DOC_TYPE_REVAL', 'Валютная переоценка по операции с ценной бумагой', 'Исполнена' union all
+select 'DOC_TYPE_LOAD', 'Постановка на учет операции с ценной бумагой', 'Загружена';
 
 --Заполнение таблицы с организациями:
 insert into Institution(Name)

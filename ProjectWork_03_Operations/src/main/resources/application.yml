@@ -36,7 +36,7 @@ OperDates:
 
 schedulerTask:
   operDateProcessing:
-    interval: 800000
+    interval: 10000
 
 dealGenerate:
   numberByDate: 20
@@ -46,3 +46,8 @@ dealGenerate:
 
 nationalCurrency:
   name: RUB
+
+#Режимы работы приложения:
+#  0 - через шедуллер (открытие и закрытие дня автоматически)
+#  1 - через shell консоль (открытие и закрытие дня по командам)
+app_mode: 0

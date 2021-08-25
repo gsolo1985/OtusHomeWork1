@@ -1,7 +1,7 @@
 package ru.otus.operations.domain;
 
 import lombok.*;
-import ru.otus.operations.state.OperationState;
+import ru.otus.operations.statemachine.OperationState;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

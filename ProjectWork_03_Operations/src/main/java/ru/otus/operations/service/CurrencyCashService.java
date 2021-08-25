@@ -2,10 +2,9 @@ package ru.otus.operations.service;
 
 import ru.otus.operations.domain.CurrencyCashEntity;
 
-import java.util.Optional;
-
 public interface CurrencyCashService {
-    /** Получить рандомную валюту из БД
+    /**
+     * Получить рандомную валюту из БД
      *
      * @return валюта
      */
@@ -13,6 +12,7 @@ public interface CurrencyCashService {
 
     /**
      * Получить валюту по имени (Если такой валюты нет, то она будет добавлена)
+     *
      * @param name - имя
      * @return - валюта
      */
@@ -20,6 +20,7 @@ public interface CurrencyCashService {
 
     /**
      * Сохранить валюту
+     *
      * @param currency - валюта
      * @return - сохраненный объект
      */
