@@ -7,28 +7,26 @@ import ru.otus.operations.consumer.RevalOperationList;
 import ru.otus.operations.domain.OperDateEntity;
 import ru.otus.operations.domain.OperationEntity;
 import ru.otus.operations.domain.RevalEntity;
+import ru.otus.operations.exception.BusinessProcessException;
 import ru.otus.operations.publish.operationreval.OperationRevalDto;
 import ru.otus.operations.publish.operationreval.OperationRevalOutPublishGateway;
-import ru.otus.operations.service.BusinessProcessByOperDateService;
-import ru.otus.operations.service.OperDateService;
-import ru.otus.operations.service.OperationService;
-import ru.otus.operations.service.RevalService;
+import ru.otus.operations.service.*;
 import ru.otus.operations.statemachine.OperationState;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.otus.operations.constants.BusinessProcessConstants.BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED;
-import static ru.otus.operations.constants.BusinessProcessConstants.OPERATIONS_CURRENCY_REVAL_SYS_NAME;
+import static ru.otus.operations.constants.BusinessProcessConstants.*;
 
 @Service
 @RequiredArgsConstructor
 public class RevalOperationServiceImpl implements RevalOperationService {
     private final OperationService operationService;
     private final OperationRevalOutPublishGateway operationRevalOutPublishGateway;
-    private final BusinessProcessByOperDateService businessProcessByOperDateService;
+    private final ProtocolService protocolService;
     private final RevalService revalService;
     private final OperDateService operDateService;
+    private final BusinessProcessService businessProcessService;
 
     @Value(value = "${nationalCurrency.name}")
     private String nationalCurrencyName;
@@ -44,6 +42,11 @@ public class RevalOperationServiceImpl implements RevalOperationService {
         System.out.println("Переоценка операций за дату " + operDateEntity.getOperDate());
         var operations = getOperationForRevalByDate(operDateEntity);
 
+        var bpOpt = businessProcessService.findBySysName(OPERATIONS_CURRENCY_REVAL_SYS_NAME);
+        if (bpOpt.isEmpty()) {
+            throw new BusinessProcessException("No found business process by sys name: OPERATIONS_CURRENCY_REVAL_SYS_NAME");
+        }
+
         if (operations.size() > 0) {
             System.out.println("Отправлено на расчет переоценки " + operations.size() + " операций");
 //            operationRevalOutPublishGateway.publish(OperationRevalDtoList.builder()
@@ -51,7 +54,8 @@ public class RevalOperationServiceImpl implements RevalOperationService {
         }
 
         // TODO УДАЛИТЬ
-        businessProcessByOperDateService.setBusinessProcessesByOperDateStatus(operDateEntity, OPERATIONS_CURRENCY_REVAL_SYS_NAME, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED);
+        protocolService.saveByBusinessProcessesAndOperDate(bpOpt.get(), operDateEntity, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // добавим обработанный протокол
+//        protocolService.saveByBusinessProcessesAndOperDate(bpOpt.get(), operDateEntity, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSING); // добавим протокол
     }
 
     /**
@@ -74,8 +78,12 @@ public class RevalOperationServiceImpl implements RevalOperationService {
             revalEntities.forEach(revalService::save);
         }
         var operDay = operDateService.getOperDay();
+        var bpOpt = businessProcessService.findBySysName(OPERATIONS_CURRENCY_REVAL_SYS_NAME);
+        if (bpOpt.isEmpty()) {
+            throw new BusinessProcessException("No found business process by sys name: OPERATIONS_CURRENCY_REVAL_SYS_NAME");
+        }
 
-        operDay.ifPresent(operDateEntity -> businessProcessByOperDateService.setBusinessProcessesByOperDateStatus(operDateEntity, OPERATIONS_CURRENCY_REVAL_SYS_NAME, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED));
+        operDay.ifPresent(operDateEntity -> protocolService.saveByBusinessProcessesAndOperDate(bpOpt.get(), operDateEntity, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED));
     }
 
     private List<OperationRevalDto> getOperationForRevalByDate(OperDateEntity operDateEntity) {

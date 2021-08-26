@@ -1,8 +1,10 @@
 package ru.otus.operations.service;
 
 import ru.otus.operations.domain.OperDateEntity;
+import ru.otus.operations.domain.OperationEntity;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface OperDateService {

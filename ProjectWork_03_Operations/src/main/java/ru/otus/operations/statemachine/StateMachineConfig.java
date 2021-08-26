@@ -30,7 +30,12 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Operat
                 .and()
                 .withExternal().source(OperationState.LOADED).target(OperationState.CANCELED).event(OperationEvent.CANCEL)
                 .and()
-                .withExternal().source(OperationState.LOADED).target(OperationState.EXEC).event(OperationEvent.EXECUTE);
+                .withExternal().source(OperationState.LOADED).target(OperationState.EXEC).event(OperationEvent.EXECUTE)
+                .and()
+                .withExternal().source(OperationState.CANCELED).target(OperationState.CANCELED).event(OperationEvent.CANCEL)
+                .and()
+                .withExternal().source(OperationState.EXEC).target(OperationState.EXEC).event(OperationEvent.EXECUTE)
+        ;
     }
 
     @Override

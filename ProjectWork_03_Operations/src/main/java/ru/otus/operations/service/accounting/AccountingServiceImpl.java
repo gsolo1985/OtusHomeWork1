@@ -60,6 +60,7 @@ public class AccountingServiceImpl implements AccountingService {
                         .debitAccountNumber(getRandomAccount())
                         .operationEntity(operationEntity)
                         .operDate(operDate)
+                        .docType(t.getDocType())
                         .build());
             }
 

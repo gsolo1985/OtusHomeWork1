@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.operations.domain.OperDateEntity;
 import ru.otus.operations.exception.AppModeNotValidException;
+import ru.otus.operations.exception.BusinessProcessException;
 import ru.otus.operations.publish.newoperday.DateMessageOutPublishGateway;
-import ru.otus.operations.service.BusinessProcessByOperDateService;
+import ru.otus.operations.service.BusinessProcessService;
+import ru.otus.operations.service.ProtocolService;
 import ru.otus.operations.service.OperDateService;
 
 import static ru.otus.operations.constants.BusinessProcessConstants.BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED;
@@ -17,8 +19,9 @@ import static ru.otus.operations.constants.BusinessProcessConstants.OPEN_OPER_DA
 @RequiredArgsConstructor
 public class StartOperDayServiceImpl implements StartOperDayService {
     private final OperDateService operDateService;
-    private final BusinessProcessByOperDateService businessProcessByOperDateService;
+    private final ProtocolService protocolService;
     private final DateMessageOutPublishGateway dateMessageOutPublishGateway;
+    private final BusinessProcessService businessProcessService;
 
     @Value(value = "${app_mode}")
     private int appMode;
@@ -40,13 +43,15 @@ public class StartOperDayServiceImpl implements StartOperDayService {
         operDateService.fillOperDate(); //Заполняем БД датами (если это необходимо)
         var newDate = operDateService.openOperDay();
 
-        businessProcessByOperDateService.addBusinessProcessesByOperDate(newDate); // Добавляем в обработку все бизнесс-процессы за дату
-
 //        dateMessageOutPublishGateway.publish(DateMessage.builder() // отправляем в кафку сообщение, что открыт новый опер. день
 //                .date(newDate.getOperDate())
 //                .build());
 
-        businessProcessByOperDateService.setBusinessProcessesByOperDateStatus(newDate, OPEN_OPER_DATE_NAME, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // пометим бизнес-процесс как обработанный
+        var bpOpt = businessProcessService.findBySysName(OPEN_OPER_DATE_NAME);
+        if (bpOpt.isEmpty()) {
+            throw new BusinessProcessException("No found business process by sys name: OPEN_OPER_DATE_NAME");
+        }
+        protocolService.saveByBusinessProcessesAndOperDate(bpOpt.get(), newDate, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED);
 
         return newDate;
     }

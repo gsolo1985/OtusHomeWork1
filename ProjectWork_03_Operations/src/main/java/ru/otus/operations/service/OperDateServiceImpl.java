@@ -101,6 +101,7 @@ public class OperDateServiceImpl implements OperDateService {
     @Transactional
     public void closeOperDay(OperDateEntity operDateEntity) {
         System.out.println("Закрываем операционный день: " + operDateEntity.getOperDate());
+        System.out.println("_____________________________________________________________");
         operDateEntity.setStatus(Constants.OperDateStatus.CLOSE.ordinal());
         repository.save(operDateEntity);
     }

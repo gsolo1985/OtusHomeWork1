@@ -1,6 +1,7 @@
 package ru.otus.operations.service;
 
 import ru.otus.operations.domain.OperationEntity;
+import ru.otus.operations.model.OperationDto;
 import ru.otus.operations.statemachine.OperationState;
 
 import java.time.LocalDate;
@@ -40,4 +41,27 @@ public interface OperationService {
      * @return - список операций
      */
     List<OperationEntity> findByState(OperationState state);
+
+    /**
+     * Получить список операций по дате заключения
+     *
+     * @param date - дата заключения
+     * @return - список операций
+     */
+    List<OperationEntity> findByOperationDate(LocalDate date);
+
+    /**
+     * Преобразование объекта entity в объект dto
+     *
+     * @param entity - entity-объект
+     * @return - Dto-объект
+     */
+    OperationDto entityToDto(OperationEntity entity);
+
+    /**
+     * Удаление по id
+     *
+     * @param id - идентификатор
+     */
+    void deleteById(long id);
 }

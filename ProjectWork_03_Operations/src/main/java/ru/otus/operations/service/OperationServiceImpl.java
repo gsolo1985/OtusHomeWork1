@@ -4,7 +4,9 @@ import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.operations.constants.Constants;
 import ru.otus.operations.domain.OperationEntity;
+import ru.otus.operations.model.OperationDto;
 import ru.otus.operations.repository.OperationRepository;
 import ru.otus.operations.statemachine.OperationState;
 
@@ -64,5 +66,59 @@ public class OperationServiceImpl implements OperationService {
     @Transactional(readOnly = true)
     public List<OperationEntity> findByState(OperationState state) {
         return repository.findByState(state);
+    }
+
+    /**
+     * Получить список операций по дате заключения
+     *
+     * @param date - дата заключения
+     * @return - список операций
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<OperationEntity> findByOperationDate(LocalDate date) {
+        return repository.findByOperationDate(date);
+    }
+
+    /**
+     * Преобразование объекта entity в объект dto
+     *
+     * @param entity - entity-объект
+     * @return - Dto-объект
+     */
+    @Override
+    public OperationDto entityToDto(OperationEntity entity) {
+        if (entity == null)
+            return new OperationDto();
+
+        var result = OperationDto.builder()
+                .amount(entity.getAmount())
+                .num(entity.getNum())
+                .operationDate(entity.getOperationDate())
+                .operationId(entity.getOperationId())
+                .planDate(entity.getPlanDate())
+                .stateName(entity.getState().getName())
+                .build();
+
+        Optional.ofNullable(entity.getSecurityEntity()).ifPresent(s -> {
+            result.setSecurityName(s.getName());
+            result.setSecurityTypeName(Constants.SecurityType.values()[s.getType()].getName());
+        });
+
+        Optional.ofNullable(entity.getCurrencyCashEntity()).ifPresent(c -> {
+            result.setCurrencyName(c.getName());
+        });
+        return result;
+    }
+
+    /**
+     * Удаление по id
+     *
+     * @param id - идентификатор
+     */
+    @Override
+    @Transactional
+    public void deleteById(long id) {
+        repository.deleteById(id);
     }
 }

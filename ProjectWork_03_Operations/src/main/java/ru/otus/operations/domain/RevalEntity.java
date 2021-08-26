@@ -39,5 +39,4 @@ public class RevalEntity {
     @ManyToOne(targetEntity = CurrencyCashEntity.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "CurrencyRevalID")
     private CurrencyCashEntity currencyRevalEntity;
-
 }

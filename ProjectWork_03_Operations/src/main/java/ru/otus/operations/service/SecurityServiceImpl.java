@@ -8,6 +8,8 @@ import ru.otus.operations.constants.Constants;
 import ru.otus.operations.domain.SecurityEntity;
 import ru.otus.operations.repository.SecurityRepository;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class SecurityServiceImpl implements SecurityService {
@@ -29,5 +31,16 @@ public class SecurityServiceImpl implements SecurityService {
             return secAll.get(random);
         }
         return SecurityEntity.builder().securityId(-1L).name("random").type(Constants.SecurityType.SHARE.ordinal()).build();
+    }
+
+    /**
+     * Получить ЦБ по имени
+     *
+     * @param name - имя
+     * @return ЦБ
+     */
+    @Override
+    public Optional<SecurityEntity> getByName(String name) {
+        return repository.findByName(name);
     }
 }

@@ -6,11 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.operations.domain.OperDateEntity;
 import ru.otus.operations.domain.OperationEntity;
+import ru.otus.operations.exception.BusinessProcessException;
 import ru.otus.operations.exception.GenerateOperationNotValidException;
-import ru.otus.operations.service.BusinessProcessByOperDateService;
-import ru.otus.operations.service.CurrencyCashService;
-import ru.otus.operations.service.OperationService;
-import ru.otus.operations.service.SecurityService;
+import ru.otus.operations.service.*;
 import ru.otus.operations.statemachine.OperationState;
 import ru.otus.operations.statemachine.OperationStateMachine;
 
@@ -19,8 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.otus.operations.constants.BusinessProcessConstants.BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED;
-import static ru.otus.operations.constants.BusinessProcessConstants.OPERATIONS_CREATE_SYS_NAME;
+import static ru.otus.operations.constants.BusinessProcessConstants.*;
 import static ru.otus.operations.constants.OperationConstants.*;
 
 @Service
@@ -29,8 +26,9 @@ public class GenerateOperationServiceImpl implements GenerateOperationService {
     private final CurrencyCashService currencyCashService;
     private final SecurityService securityService;
     private final OperationService operationService;
-    private final BusinessProcessByOperDateService businessProcessByOperDateService;
+    private final ProtocolService protocolService;
     private final OperationStateMachine operationStateMachine;
+    private final BusinessProcessService businessProcessService;
 
     @Value(value = "${dealGenerate.numberByDate}")
     private int dealCount;
@@ -53,6 +51,11 @@ public class GenerateOperationServiceImpl implements GenerateOperationService {
         int numberT1Generate = numberT1;
 
         List<OperationEntity> result = new ArrayList<>();
+
+        var bpOpt = businessProcessService.findBySysName(OPERATIONS_CREATE_SYS_NAME);
+        if (bpOpt.isEmpty()) {
+            throw new BusinessProcessException("No found business process by sys name: OPERATIONS_CREATE_SYS_NAME");
+        }
 
         if (dealGenerateCount > 0) {
             if (dealGenerateCount < numberT2Generate + numberT1Generate) {
@@ -120,7 +123,7 @@ public class GenerateOperationServiceImpl implements GenerateOperationService {
             result.forEach(operationStateMachine::loadOperation); // раскрутка стейт машины
         }
 
-        businessProcessByOperDateService.setBusinessProcessesByOperDateStatus(operDateEntity, OPERATIONS_CREATE_SYS_NAME, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // пометим бизнес-процесс как обработанный
+        protocolService.saveByBusinessProcessesAndOperDate(bpOpt.get(), operDateEntity, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // добавим обработанный протокол
         return result;
     }
 

@@ -8,9 +8,11 @@ import ru.otus.operations.consumer.RevalOperation;
 import ru.otus.operations.domain.OperationEntity;
 import ru.otus.operations.domain.RevalEntity;
 import ru.otus.operations.exception.RevalNotValidException;
+import ru.otus.operations.model.RevalDto;
 import ru.otus.operations.repository.RevalRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -100,6 +102,47 @@ public class RevalServiceImpl implements RevalService {
     @Transactional(readOnly = true)
     public Optional<RevalEntity> getRevalByOperationAndDate(OperationEntity operationEntity, LocalDate localDate) {
         return repository.findByOperationEntityAndOperDate(operationEntity, localDate);
+    }
+
+    /**
+     * Получить переоценку за дату
+     *
+     * @param operDate - дата
+     * @return - переоценка
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<RevalEntity> findByOperDate(LocalDate operDate) {
+        return repository.findByOperDate(operDate);
+    }
+
+    /**
+     * Преобразование объекта entity в объект dto
+     *
+     * @param entity - entity-объект
+     * @return - Dto-объект
+     */
+    @Override
+    public RevalDto entityToDto(RevalEntity entity) {
+        return RevalDto.builder()
+                .revalId(entity.getRevalId())
+                .operationId(entity.getOperationEntity().getOperationId())
+                .currencyName(entity.getCurrencyEntity().getName())
+                .currencyRevalName(entity.getCurrencyRevalEntity().getName())
+                .operDate(entity.getOperDate())
+                .revalValue(entity.getRevalValue())
+                .build();
+    }
+
+    /**
+     * Получить историю переоценку по операции
+     *
+     * @param operationEntity - операция
+     * @return список расчитанных переоценнок
+     */
+    @Override
+    public List<RevalEntity> findByOperationEntity(OperationEntity operationEntity) {
+        return repository.findByOperationEntity(operationEntity);
     }
 
 }

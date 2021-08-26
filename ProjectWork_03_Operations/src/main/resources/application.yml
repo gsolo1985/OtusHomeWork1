@@ -39,10 +39,10 @@ schedulerTask:
     interval: 10000
 
 dealGenerate:
-  numberByDate: 20
-  numberT2: 14
-  numberT1: 2
-  cancel: 2
+  numberByDate: 10
+  numberT2: 6
+  numberT1: 1
+  cancel: 1
 
 nationalCurrency:
   name: RUB

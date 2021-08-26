@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.otus.operations.constants.Constants;
+import ru.otus.operations.exception.BusinessProcessException;
 import ru.otus.operations.exception.OpenDateNotValidException;
-import ru.otus.operations.service.BusinessProcessByOperDateService;
+import ru.otus.operations.service.ProtocolService;
 import ru.otus.operations.service.BusinessProcessService;
 import ru.otus.operations.service.OperDateService;
 
@@ -21,7 +22,7 @@ public class ProcessingServiceImpl implements ProcessingService {
     private final CancelOperationService cancelOperationService;
     private final ExecOperationService execOperationService;
     private final RevalOperationService revalOperationService;
-    private final BusinessProcessByOperDateService businessProcessByOperDateService;
+    private final ProtocolService protocolService;
 
     /**
      * Начать обработку операционного дня:
@@ -78,7 +79,12 @@ public class ProcessingServiceImpl implements ProcessingService {
         operDateService.getOperDay().ifPresent(operDay -> {
             operDay.setStatus(Constants.OperDateStatus.CLOSE.ordinal());
             operDateService.closeOperDay(operDay);
-            businessProcessByOperDateService.setBusinessProcessesByOperDateStatus(operDay, CLOSE_OPER_DATE_SYS_NAME, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED);
+
+            var bpOpt = businessProcessService.findBySysName(CLOSE_OPER_DATE_SYS_NAME);
+            if (bpOpt.isEmpty()) {
+                throw new BusinessProcessException("No found business process by sys name: CLOSE_OPER_DATE_SYS_NAME");
+            }
+            protocolService.saveByBusinessProcessesAndOperDate(bpOpt.get(), operDay, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // добавим обработанный протокол
         });
 
     }

@@ -7,7 +7,7 @@ public enum Constants {
     EMPTY("", Empty.values()),
     BUSINESS_PROCESS_SYS_NAME("Список бизнес-процессов", BusinessProcessSysName.values()),
     OPER_DATE_STATUS("Статус операционного дня", OperDateStatus.values()),
-    BUSINESS_PROCESS_BY_DATE_STATUS("Статус обработки бизнес-процесса за дату", BusinessProcessByDateStatus.values()),
+    PROTOCOL_STATUS("Статус обработки бизнес-процесса за дату", ProtocolStatus.values()),
     SECURITY_TYPE("Тип ценной бумаги", SecurityType.values()),
     DEAL_TYPE("Сделка покупка/продажа", DealType.values());
 
@@ -36,7 +36,7 @@ public enum Constants {
     }
 
     @RequiredArgsConstructor
-    public enum BusinessProcessByDateStatus implements ConstantsValue {
+    public enum ProtocolStatus implements ConstantsValue {
         EMPTY("-"),
         PROCESSING("В обработке"),
         PROCESSED("Обработан");

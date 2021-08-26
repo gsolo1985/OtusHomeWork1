@@ -20,4 +20,7 @@ public interface OperationRepository extends CrudRepository<OperationEntity, Lon
 
     @EntityGraph("operation-entity-graph")
     List<OperationEntity> findByState(OperationState state);
+
+    @EntityGraph("operation-entity-graph")
+    List<OperationEntity> findByOperationDate(LocalDate operationDate);
 }

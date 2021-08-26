@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.otus.operations.constants.DocType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -20,7 +21,7 @@ public class DocumentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DocumentID")
-    private Long documentID;
+    private Long documentId;
 
     @ManyToOne(targetEntity = OperationEntity.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "ObjectID")
@@ -41,4 +42,7 @@ public class DocumentEntity {
     @Column(name = "DocComment")
     private String comment;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "DocType")
+    private DocType docType;
 }
