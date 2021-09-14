@@ -38,3 +38,6 @@ nationalCurrency:
 rateTargetCurrency:
   name: USD
 
+logging:
+  pattern:
+    console=:

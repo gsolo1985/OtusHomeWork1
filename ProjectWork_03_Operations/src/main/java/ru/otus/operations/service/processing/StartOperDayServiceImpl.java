@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.operations.domain.OperDateEntity;
 import ru.otus.operations.exception.AppModeNotValidException;
 import ru.otus.operations.exception.BusinessProcessException;
+import ru.otus.operations.publish.newoperday.DateMessage;
 import ru.otus.operations.publish.newoperday.DateMessageOutPublishGateway;
 import ru.otus.operations.service.BusinessProcessService;
 import ru.otus.operations.service.ProtocolService;
@@ -35,7 +36,7 @@ public class StartOperDayServiceImpl implements StartOperDayService {
     @Override
     @Transactional
     public OperDateEntity exec() {
-        System.out.println("Открытие опер дня");
+        System.out.println("Открытие операционного дня");
         if (appMode < 0 || appMode > 1) {
             throw new AppModeNotValidException("Incorrect parameter 'app_mode' in application.yml");
         }
@@ -43,9 +44,9 @@ public class StartOperDayServiceImpl implements StartOperDayService {
         operDateService.fillOperDate(); //Заполняем БД датами (если это необходимо)
         var newDate = operDateService.openOperDay();
 
-//        dateMessageOutPublishGateway.publish(DateMessage.builder() // отправляем в кафку сообщение, что открыт новый опер. день
-//                .date(newDate.getOperDate())
-//                .build());
+        dateMessageOutPublishGateway.publish(DateMessage.builder() // отправляем в кафку сообщение, что открыт новый опер. день
+                .date(newDate.getOperDate())
+                .build());
 
         var bpOpt = businessProcessService.findBySysName(OPEN_OPER_DATE_NAME);
         if (bpOpt.isEmpty()) {

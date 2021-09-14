@@ -9,6 +9,7 @@ import ru.otus.operations.domain.OperationEntity;
 import ru.otus.operations.domain.RevalEntity;
 import ru.otus.operations.exception.BusinessProcessException;
 import ru.otus.operations.publish.operationreval.OperationRevalDto;
+import ru.otus.operations.publish.operationreval.OperationRevalDtoList;
 import ru.otus.operations.publish.operationreval.OperationRevalOutPublishGateway;
 import ru.otus.operations.service.*;
 import ru.otus.operations.statemachine.OperationState;
@@ -33,7 +34,7 @@ public class RevalOperationServiceImpl implements RevalOperationService {
 
     /**
      * Запуск бизнес-процесса с системным именем "OPERATIONS_CURRENCY_REVAL_SYS_NAME"
-     * Отбирает операции, для которых нужна вал. переоцнка и отправляет по кафке в сервис для расчета
+     * Отбирает операции, для которых нужна вал. переоценка и отправляет по кафке в сервис для расчета
      *
      * @param operDateEntity - дата
      */
@@ -49,12 +50,12 @@ public class RevalOperationServiceImpl implements RevalOperationService {
 
         if (operations.size() > 0) {
             System.out.println("Отправлено на расчет переоценки " + operations.size() + " операций");
-//            operationRevalOutPublishGateway.publish(OperationRevalDtoList.builder()
-//                    .operationList(operations).build());
+            operationRevalOutPublishGateway.publish(OperationRevalDtoList.builder()
+                    .operationList(operations).build());
         }
 
         // TODO УДАЛИТЬ
-        protocolService.saveByBusinessProcessesAndOperDate(bpOpt.get(), operDateEntity, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // добавим обработанный протокол
+//        protocolService.saveByBusinessProcessesAndOperDate(bpOpt.get(), operDateEntity, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // добавим обработанный протокол
 //        protocolService.saveByBusinessProcessesAndOperDate(bpOpt.get(), operDateEntity, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSING); // добавим протокол
     }
 

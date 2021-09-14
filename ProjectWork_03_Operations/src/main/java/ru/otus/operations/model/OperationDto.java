@@ -22,4 +22,16 @@ public class OperationDto {
     private String currencyName;
     private BigDecimal amount;
     private String stateName;
+
+    @Override
+    public String toString() {
+        return "operationId=" + operationId +
+                ", operationDate=" + operationDate +
+                ", planDate=" + planDate +
+                ", currencyName='" + currencyName + '\'' +
+                ", amount=" + amount +
+                ", securityName='" + securityName + '\'' +
+                ", securityTypeName='" + securityTypeName + '\'' +
+                ", stateName='" + stateName + '\'';
+    }
 }

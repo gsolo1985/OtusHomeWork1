@@ -33,13 +33,11 @@ public class KafKaConsumerService {
      * Слушатель события по добавлению курса валют
      */
     public void consume(CurrencyRateDtoList msg) {
-        System.out.println("Получили список курсов валют");
-
         if (msg.getCurrencyRateDtoList() != null) {
+            System.out.println("Получили список курсов валют в размере: " + msg.getCurrencyRateDtoList().size());
             rateTransformService.setCurrencyEntityToListRateDto(msg.getCurrencyRateDtoList()); //проставим валюты из БД, если валют нет, то добавим их
             var rateList = rateTransformService.getCurrencyRateEntityFromRateDto(msg.getCurrencyRateDtoList()); //трансформируем dto в entity
 
-            System.out.println("rateList = " + rateList);
             rateList.forEach(currencyRateService::save); //сохраняем в БД
         }
 
@@ -57,7 +55,7 @@ public class KafKaConsumerService {
         TimeUnit.SECONDS.sleep(3); // ждем 3 секунды, чтобы адаптер по валютам успел отработать и у нас были все курсы
 
         if (msg.getOperationList() != null) {
-            System.out.println("Получили списиок операций для расчета переоценки в размере: " + msg.getOperationList().size());
+            System.out.println("Получили список операций для расчета переоценки в размере: " + msg.getOperationList().size());
 
             msg.getOperationList().forEach(o -> {
                 var reval = revalService.transform(o);

@@ -117,7 +117,7 @@ public class GenerateOperationServiceImpl implements GenerateOperationService {
                 dealGenerateCount = dealGenerateCount - 1;
             }
 
-            System.out.println("Загружено " + result.size() + " операций. Из которых со сроком сегодня - " + (dealCount - numberT2 - numberT1) + ", со сроком 1 день - " + numberT1 + ", со сроком 2 дня - " + numberT2);
+            System.out.println("Загружено " + result.size() + " операций. Из которых со сроком сегодня - " + (dealCount - numberT2 - numberT1) + ", со сроком один день - " + numberT1 + ", со сроком два дня - " + numberT2);
 
             result = operationService.saveAll(result);
             result.forEach(operationStateMachine::loadOperation); // раскрутка стейт машины

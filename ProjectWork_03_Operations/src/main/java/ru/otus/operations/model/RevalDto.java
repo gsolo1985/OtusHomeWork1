@@ -19,4 +19,14 @@ public class RevalDto {
     private BigDecimal revalValue;
     private String currencyName;
     private String currencyRevalName;
+
+    @Override
+    public String toString() {
+        return "revalId=" + revalId +
+                ", operationId=" + operationId +
+                ", operDate=" + operDate +
+                ", revalValue=" + revalValue +
+                ", currencyName='" + currencyName + '\'' +
+                ", currencyRevalName='" + currencyRevalName + '\'';
+    }
 }

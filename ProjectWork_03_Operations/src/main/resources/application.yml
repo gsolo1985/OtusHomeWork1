@@ -36,7 +36,7 @@ OperDates:
 
 schedulerTask:
   operDateProcessing:
-    interval: 10000
+    interval: 30000
 
 dealGenerate:
   numberByDate: 10
@@ -50,7 +50,7 @@ nationalCurrency:
 #Режимы работы приложения:
 #  0 - через шедуллер (открытие и закрытие дня автоматически)
 #  1 - через shell консоль (открытие и закрытие дня по командам)
-app_mode: 0
+app_mode: 1
 
 logging:
   pattern:

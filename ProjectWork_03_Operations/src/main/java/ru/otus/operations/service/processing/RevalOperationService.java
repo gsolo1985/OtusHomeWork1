@@ -6,7 +6,7 @@ import ru.otus.operations.domain.OperDateEntity;
 public interface RevalOperationService {
     /**
      * Запуск бизнес-процесса с системным именем "OPERATIONS_CURRENCY_REVAL_SYS_NAME"
-     * Отбирает операции, для которых нужна вал. переоцнка и отправляет по кафке в сервис для расчета
+     * Отбирает операции, для которых нужна вал. переоценка и отправляет по кафке в сервис для расчета
      *
      * @param operDateEntity - дата
      */
