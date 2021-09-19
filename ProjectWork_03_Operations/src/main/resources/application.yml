@@ -1,0 +1,57 @@
+server:
+  port: 8083
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id: "deals"
+  datasource:
+    url: jdbc:h2:mem:librarydb
+    schema: classpath:schema.sql
+    initialization-mode: always
+    show-sql: false
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+    show-sql: false
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+deals:
+  kafka-topic-name:
+    new-oper-date: new-oper-date
+    operation-reval-out: operation-reval-out
+    calc-reval-out: calc-reval-out
+
+OperDates:
+    daysAdd: 10
+    startDate: 2018-09-03
+
+schedulerTask:
+  operDateProcessing:
+    interval: 30000
+
+dealGenerate:
+  numberByDate: 10
+  numberT2: 6
+  numberT1: 1
+  cancel: 1
+
+nationalCurrency:
+  name: RUB
+
+#Режимы работы приложения:
+#  0 - через шедуллер (открытие и закрытие дня автоматически)
+#  1 - через shell консоль (открытие и закрытие дня по командам)
+app_mode: 1
+
+logging:
+  pattern:
+    console=:

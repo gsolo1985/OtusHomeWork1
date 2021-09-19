@@ -1,0 +1,43 @@
+server:
+  port: 8082
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id: "reval"
+  datasource:
+    url: jdbc:h2:mem:librarydb
+    schema: classpath:schema.sql
+    initialization-mode: always
+    show-sql: false
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+    show-sql: false
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+deals:
+  kafka-topic-name:
+    currency-rate-by-date-out: currency-rate-by-date-out
+    operation-reval-out: operation-reval-out
+    calc-reval-out: calc-reval-out
+
+
+nationalCurrency:
+  name: RUB
+
+#Относительно какой валюты сохранются курсы
+rateTargetCurrency:
+  name: USD
+
+logging:
+  pattern:
+    console=:
