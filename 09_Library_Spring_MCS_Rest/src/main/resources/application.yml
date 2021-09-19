@@ -6,3 +6,32 @@ rest-template:
     readTimeout: 300000
   url:
     getBook: http://localhost:8080/books/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 2
+        minimumNumberOfCalls: 1
+        permittedNumberOfCallsInHalfOpenState: 1
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 50s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        slowCallDurationThreshold: 1s
+    instances:
+      mainService:
+        baseConfig: default
