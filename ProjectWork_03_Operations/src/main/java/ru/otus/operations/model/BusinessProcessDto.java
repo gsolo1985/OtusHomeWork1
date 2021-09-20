@@ -13,4 +13,5 @@ public class BusinessProcessDto {
     private Long businessProcessId;
     private String sysName;
     private int order;
+    private int isOn;
 }

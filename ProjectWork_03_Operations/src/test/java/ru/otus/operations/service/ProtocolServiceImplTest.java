@@ -53,6 +53,7 @@ class ProtocolServiceImplTest {
                 .businessProcessId(1L)
                 .orderType(1)
                 .sysName(OPERATIONS_CURRENCY_REVAL_SYS_NAME)
+                .isOn(1)
                 .build();
 
         operDateEntity = OperDateEntity.builder()
@@ -92,6 +93,7 @@ class ProtocolServiceImplTest {
                 .businessProcessId(1L)
                 .order(1)
                 .sysName(OPERATIONS_CURRENCY_REVAL_SYS_NAME)
+                .isOn(1)
                 .build();
 
         var target = ProtocolDto.builder()

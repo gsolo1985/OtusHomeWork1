@@ -1,11 +1,11 @@
 --Заполнение таблицы с переченью бизнес-процессов:
-insert into BusinessProcess(SysName, OrderType)
-select 'OPEN_OPER_DATE', 1 union all
-select 'OPERATIONS_CREATE', 2 union all
-select 'OPERATIONS_CANCEL', 3 union all
-select 'OPERATIONS_CURRENCY_REVAL', 4 union all
-select 'OPERATIONS_EXECUTION', 5 union all
-select 'CLOSE_OPER_DATE', 99;
+insert into BusinessProcess(SysName, OrderType, IsOn)
+select 'OPEN_OPER_DATE', 1, 1 union all
+select 'OPERATIONS_CREATE', 2, 1 union all
+select 'OPERATIONS_CANCEL', 3, 1 union all
+select 'OPERATIONS_CURRENCY_REVAL', 4, 1 union all
+select 'OPERATIONS_EXECUTION', 5, 1 union all
+select 'CLOSE_OPER_DATE', 99, 1;
 
 insert into DocumentTemplate (DocType, DocComment, OperState)
 select 'DOC_TYPE_CANCEL', 'Документ на отмену по операции с ценной бумагой', 'Отменена' union all

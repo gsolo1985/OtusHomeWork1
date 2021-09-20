@@ -35,39 +35,43 @@ public class ProcessingServiceImpl implements ProcessingService {
 
         for (var process : processesList) {
             String sysName = process.getSysName();
+            int isOn = process.getIsOn();
 
-            //Открытие операционного дня
-            if (sysName.equals(OPEN_OPER_DATE_NAME)) {
-                startOperDayService.exec();
+            if (isOn == 1) {
+                //Открытие операционного дня
+                if (sysName.equals(OPEN_OPER_DATE_NAME)) {
+                    startOperDayService.exec();
+                }
+
+                var od = operDateService.getOperDay();
+
+                if (od.isEmpty()) {
+                    throw new OpenDateNotValidException("Operation day isn't defined");
+                }
+
+                var openedDay = od.get();
+
+                //Заведение операций
+                if (sysName.equals(OPERATIONS_CREATE_SYS_NAME)) {
+                    generateOperationService.exec(openedDay);
+                }
+
+                //Отмена операций
+                if (sysName.equals(OPERATIONS_CANCEL_SYS_NAME)) {
+                    cancelOperationService.exec(openedDay);
+                }
+
+                //Валютная переоценка
+                if (sysName.equals(OPERATIONS_CURRENCY_REVAL_SYS_NAME)) {
+                    revalOperationService.exec(openedDay);
+                }
+
+                //Исполнение операций
+                if (sysName.equals(OPERATIONS_EXECUTION_SYS_NAME)) {
+                    execOperationService.exec(openedDay);
+                }
             }
 
-            var od = operDateService.getOperDay();
-
-            if (od.isEmpty()) {
-                throw new OpenDateNotValidException("Operation day isn't defined");
-            }
-
-            var openedDay = od.get();
-
-            //Заведение операций
-            if (sysName.equals(OPERATIONS_CREATE_SYS_NAME)) {
-                generateOperationService.exec(openedDay);
-            }
-
-            //Отмена операций
-            if (sysName.equals(OPERATIONS_CANCEL_SYS_NAME)) {
-                cancelOperationService.exec(openedDay);
-            }
-
-            //Валютная переоценка
-            if (sysName.equals(OPERATIONS_CURRENCY_REVAL_SYS_NAME)) {
-                revalOperationService.exec(openedDay);
-            }
-
-            //Исполнение операций
-            if (sysName.equals(OPERATIONS_EXECUTION_SYS_NAME)) {
-                execOperationService.exec(openedDay);
-            }
         }
     }
 

@@ -31,4 +31,12 @@ public interface BusinessProcessService {
      * @return - БП
      */
     Optional<BusinessProcessEntity> findBySysName(String sysName);
+
+    /**
+     * Сохранить БП через dto-объект
+     *
+     * @param businessProcessDto - dto
+     * @return - сохраненный объект
+     */
+    BusinessProcessDto saveDto(BusinessProcessDto businessProcessDto);
 }

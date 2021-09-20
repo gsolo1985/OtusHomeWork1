@@ -4,10 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Generated;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.operations.model.BusinessProcessDto;
+import ru.otus.operations.model.OperationDto;
 import ru.otus.operations.service.BusinessProcessService;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,5 +31,12 @@ public class BusinessProcessController {
         });
 
         return result;
+    }
+
+    @PutMapping("/businessprocesses/businessprocess")
+    public BusinessProcessDto updateBusinessProcess(
+            @Valid
+            @RequestBody BusinessProcessDto businessProcessDto) {
+        return service.saveDto(businessProcessDto);
     }
 }

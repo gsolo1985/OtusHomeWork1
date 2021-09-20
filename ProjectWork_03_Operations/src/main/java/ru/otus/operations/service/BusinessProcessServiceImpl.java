@@ -5,8 +5,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.operations.domain.BusinessProcessEntity;
+import ru.otus.operations.domain.OperationEntity;
+import ru.otus.operations.exception.OperationException;
 import ru.otus.operations.model.BusinessProcessDto;
 import ru.otus.operations.repository.BusinessProcessRepository;
+import ru.otus.operations.statemachine.OperationState;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +43,7 @@ public class BusinessProcessServiceImpl implements BusinessProcessService {
                 .sysName(entity.getSysName())
                 .businessProcessId(entity.getBusinessProcessId())
                 .order(entity.getOrderType())
+                .isOn(entity.getIsOn())
                 .build();
     }
 
@@ -47,5 +51,29 @@ public class BusinessProcessServiceImpl implements BusinessProcessService {
     @Transactional(readOnly = true)
     public Optional<BusinessProcessEntity> findBySysName(String sysName) {
         return repository.findBySysName(sysName);
+    }
+
+    /**
+     * Сохранить БП через dto-объект
+     *
+     * @param businessProcessDto - dto
+     * @return - сохраненный объект
+     */
+    @Override
+    @Transactional
+    public BusinessProcessDto saveDto(BusinessProcessDto businessProcessDto) {
+        BusinessProcessEntity entity = BusinessProcessEntity.builder()
+                .orderType(businessProcessDto.getOrder())
+                .sysName(businessProcessDto.getSysName())
+                .isOn(businessProcessDto.getIsOn())
+                .build();
+
+        var find = repository.findBySysName(entity.getSysName());
+
+        find.ifPresent(f -> {
+            entity.setBusinessProcessId(f.getBusinessProcessId());
+        });
+
+        return entityToDto(repository.save(entity));
     }
 }

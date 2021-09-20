@@ -24,4 +24,7 @@ public class BusinessProcessEntity {
 
     @Column(name = "OrderType")
     private int orderType;
+
+    @Column(name = "IsOn")
+    private int isOn;
 }

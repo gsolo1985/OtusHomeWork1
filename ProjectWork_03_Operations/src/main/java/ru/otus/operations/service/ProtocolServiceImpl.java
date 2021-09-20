@@ -114,7 +114,7 @@ public class ProtocolServiceImpl implements ProtocolService {
     public boolean checkProcessChainEndByOperDate(OperDateEntity operDateEntity) {
         var businessProcesses = Lists.newArrayList(businessProcessRepository.findAll())
                 .stream()
-                .filter(p -> !p.getSysName().equals(CLOSE_OPER_DATE_SYS_NAME))
+                .filter(p -> !p.getSysName().equals(CLOSE_OPER_DATE_SYS_NAME) && p.getIsOn() != 0)
                 .collect(Collectors.toList());
 
         var protocolList = repository.findByOperDate(operDateEntity.getOperDate());
@@ -144,6 +144,7 @@ public class ProtocolServiceImpl implements ProtocolService {
                         .businessProcessId(entity.getBusinessProcessEntity().getBusinessProcessId())
                         .sysName(entity.getBusinessProcessEntity().getSysName())
                         .order(entity.getBusinessProcessEntity().getOrderType())
+                        .isOn(entity.getBusinessProcessEntity().getIsOn())
                         .build())
                 .operDate(entity.getOperDate())
                 .statusName(Constants.ProtocolStatus.values()[entity.getStatus()].getName())

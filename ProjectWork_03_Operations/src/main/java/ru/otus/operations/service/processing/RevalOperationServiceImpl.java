@@ -53,10 +53,6 @@ public class RevalOperationServiceImpl implements RevalOperationService {
             operationRevalOutPublishGateway.publish(OperationRevalDtoList.builder()
                     .operationList(operations).build());
         }
-
-        // TODO УДАЛИТЬ
-//        protocolService.saveByBusinessProcessesAndOperDate(bpOpt.get(), operDateEntity, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSED); // добавим обработанный протокол
-//        protocolService.saveByBusinessProcessesAndOperDate(bpOpt.get(), operDateEntity, BUSINESS_PROCESS_BY_DATE_STATUS_PROCESSING); // добавим протокол
     }
 
     /**

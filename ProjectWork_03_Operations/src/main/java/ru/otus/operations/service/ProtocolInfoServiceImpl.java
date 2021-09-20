@@ -59,8 +59,6 @@ public class ProtocolInfoServiceImpl implements ProtocolInfoService {
 
             if (sysName.equals(OPERATIONS_EXECUTION_SYS_NAME)) {
                 setOperList(operationService.findByPlanDateAndState(operDate, OperationState.EXEC), protocol);
-
-                setDocumentList(protocol, operDate, DocType.DOC_TYPE_REVAL);
             }
 
             if ((sysName.equals(OPERATIONS_CURRENCY_REVAL_SYS_NAME))) {
@@ -70,6 +68,7 @@ public class ProtocolInfoServiceImpl implements ProtocolInfoService {
                 revalList.forEach(r -> revalDtoList.add(revalService.entityToDto(r)));
 
                 protocol.setRevalDtoList(revalDtoList);
+                setDocumentList(protocol, operDate, DocType.DOC_TYPE_REVAL);
             }
 
         }
